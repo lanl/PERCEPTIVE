@@ -1,0 +1,25 @@
+Package: PERCEPTIVEv3
+Type: Package
+Title: PERCEPTIVE a shiny graphical interface for the prediction of epigenetic modifications in novel species.
+Version: 0.1.0
+Authors@R: c(
+    person("Eric", "Small", email = "emsmall@lanl.gov", role = "cre"),
+    person("Christina", "Steadman", email = "crsteadman@lanl.gov", role = "aut"))
+Description: For more information please read the manuscript.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Imports: 
+    DT (>= 0.33),
+    fontawesome (>= 0.5.2),
+    fresh (>= 0.2.1),
+    ggplot2 (>= 3.5.1),
+    htmltools (>= 0.5.8.1),
+    purrr (>= 1.0.2),
+    reactable (>= 0.4.4),
+    reactablefmtr (>= 2.0.0),
+    shiny (>= 1.9.1),
+    shinydashboard (>= 0.7.2),
+    shinydashboardPlus (>= 2.0.5),
+    shinyFiles (>= 0.9.3)

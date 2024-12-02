@@ -1,0 +1,102 @@
+﻿,,4mc,5mc,6ma,5hmc,H3K4me,H3K36me,H3K9me1/2,H3K9me3,H3K27me,H4K5ac,H4K12ac,H3K9ac,H3K27ac,H4K16ac,H4K5me,H4K20me,H3K56ac,H4K14ac,H4K8ac,H3K79me,Specific,
+IPR017985,"DNA methylase, N-4 cytosine-specific, conserved site",1,,,,,,,,,,,,,,,,,,,,1,1
+IPR040175,Methylcytosine dioxygenase TET1/2/3,,,,1,,,,,,,,,,,,,,,,,1,1
+IPR008468,DNA methyltransferase 1-associated 1,,1,,,,,,,,,,,,,,,,,,,1,1
+IPR001525,C-5 cytosine methyltransferase,,1,,,,,,,,,,,,,,,,,,,1,1
+IPR018117,"DNA methylase, C-5 cytosine-specific, active site",,1,,,,,,,,,,,,,,,,,,,1,1
+IPR031303,"DNA methylase, C-5 cytosine-specific, conserved site",,1,,,,,,,,,,,,,,,,,,,1,1
+IPR017198,DNA (cytosine-5)-methyltransferase 1-like,,1,,,,,,,,,,,,,,,,,,,1,1
+IPR040552,"DNMT3, cysteine rich ADD domain",,1,,,,,,,,,,,,,,,,,,,1,1
+IPR030488,"DNA (cytosine-5)-methyltransferase 3B, ADD domain",,1,,,,,,,,,,,,,,,,,,,1,1
+IPR014329,"M6 adenine DNA methyltransferase, Alw26I",,,1,,,,,,,,,,,,,,,,,,1,1
+IPR014455,"DNA methylase, N-6 adenine-specific, MK1259 type",,,1,,,,,,,,,,,,,,,,,,1,1
+IPR002941,DNA methylase N-4/N-6,,,1,,,,,,,,,,,,,,,,,,1,1
+IPR003356,"DNA methylase, adenine-specific",,,1,,,,,,,,,,,,,,,,,,1,1
+IPR002052,"DNA methylase, N-6 adenine-specific, conserved site",,,1,,,,,,,,,,,,,,,,,,1,1
+IPR012327,D12 class N6 adenine-specific DNA methyltransferase,,,1,,,,,,,,,,,,,,,,,,1,1
+IPR022749,"N6 adenine-specific DNA methyltransferase, N-terminal domain",,,1,,,,,,,,,,,,,,,,,,1,1
+IPR023135,"N6 adenine-specific DNA methyltransferase, TaqI class, C-terminal",,,1,,,,,,,,,,,,,,,,,,1,1
+IPR045109,Histone demethylase JHDM2-like,,,,,,1,,,,,,,,,,,,,,,1,-1
+IPR017366,Lysine-specific histone demethylase,,,,,1,1,,1,1,,,,,,1,1,,,,,,-1
+IPR016376,Histone acetyltransferase GCN5/PCAF,,,,,,,,,,1,1,1,1,1,,,,1,1,,1,1
+IPR037800,Histone acetyltransferase GCN5,,,,,,,,,,1,1,1,1,1,,,,1,1,,1,1
+IPR013178,Histone acetyltransferase Rtt109/CBP,,,,,,,,,,,,1,1,,,,1,,,,1,1
+IPR016849,Histone acetyltransferase Rtt109,,,,,,,,,,,,1,1,,,,1,,,,1,1
+IPR031162,CBP/p300-type histone acetyltransferase domain,,,,,,,,,,,,1,1,,,,1,,,,1,1
+IPR013523,"Histone acetyltransferase HAT1, C-terminal",,,,,,,,,,1,1,,,,,,,,,,1,1
+IPR019467,Histone acetyl transferase HAT1 N-terminal,,,,,,,,,,1,1,,,,,,,,,,1,1
+IPR037113,"Histone acetyl transferase 1, N-terminal domain superfamily",,,,,,,,,,1,1,,,,,,,,,,1,1
+IPR017380,"Histone acetyltransferase type B, catalytic subunit",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,1
+IPR019340,Histone acetyltransferases subunit 3,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,1
+IPR002717,"Histone acetyltransferase domain, MYST-type",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,1
+IPR007654,"NAD-dependent histone deacetylase Sir2, N-terminal",,,,,,,,,,,,1,,1,,,,1,,,1,-1
+IPR003000,Sirtuin family,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR003084,Histone deacetylase,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR000286,Histone deacetylase family,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR013194,Histone deacetylase interacting domain,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR013951,Histone deacetylation protein Rxt3,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR017250,Histone deacetylase complex subunit SAP18,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR017320,"Histone deacetylase class II, eukaryotic-type",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR017321,"Histone deacetylase class II, yeast",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR017328,"Sirtuin, class I",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR023801,Histone deacetylase domain,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR024137,Histone deacetylase complex subunit SAP130,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR024145,Histone deacetylase complex subunit SAP30/SAP30-like,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR024643,"Histone deacetylase, glutamine rich N-terminal domain",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR025717,Histone deacetylase complex subunit SAP30 zinc-finger,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR025718,"Histone deacetylase complex subunit SAP30, Sin3 binding domain",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR026587,"Sirtuin, class II",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR026590,"Sirtuin family, catalytic core domain",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR026591,"Sirtuin, catalytic core small domain superfamily",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR027546,"Sirtuin, class III",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR028628,"Sirtuin, class U",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR029163,Histone deacetylase complex subunit SAP25,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR031963,"Histone deacetylase complex subunit SAP130, C-terminal domain",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR037138,Histone deacetylase domain superfamily,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR044150,Histone deacetylase 11,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR046949,Histone deacetylase 4/5/7/9,,,,,,,,,,1,1,1,1,1,,,1,1,1,,,-1
+IPR048776,"Histone acetyltransferase type B catalytic subunit, C-terminal",,,,,,,,,,1,1,1,1,1,,,1,1,1,,,1
+IPR021654,Histone-lysine N-methyltransferase EZH1/EZH2,,,,,,,,,1,,,,,,,,,,,,1,1
+IPR045318,Histone-lysine N-methyltransferase EZH1/2-like,,,,,,,,,1,,,,,,,,,,,,1,1
+IPR025805,Histone-lysine N-methyltransferase SMYD3,,,,,1,,,,,,,,,,1,1,,,,,1,1
+IPR009207,"Histone-lysine N-methyltransferase, H3 lysine-37 specific",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR025787,"Histone-lysine N-methyltransferase, SET2, plant",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR025788,"Histone-lysine N-methyltransferase, Set2, fungi",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR044237,Histone-lysine N-methyltransferase ATXR2-like,,,,,,1,,,,,,,,,,,,,,,1,1
+IPR047451,"Histone-lysine N-methyltransferase NSD3, first PWWP domain",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR047453,"Histone-lysine N-methyltransferase NSD3, second PWWP domain",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR047456,"Histone-lysine N-methyltransferase NSD3, second PHD finger",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR047458,"Histone-lysine N-methyltransferase NSD3, fourth PHD finger",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR047461,"Histone-lysine N-methyltransferase NSD3, SET domain",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR047527,"Histone-lysine N-methyltransferase NSD3, fifth PHD finger",,,,,,1,,,,,,,,,,,,,,,1,1
+IPR044238,Histone-lysine N-methyltransferase ASHR2-like,,,,,,1,,,,,,,,,,,,,,,1,1
+IPR017111,"Histone-lysine N-methyltransferase Set1, fungi",,,,,1,,,,,,,,,,,,,,,,1,1
+IPR017155,Histone-lysine N-methyltransferase SETD7,,,,,1,,,,,,,,,,,,,,,,1,1
+IPR024636,Histone lysine methyltransferase SET associated,,,,,1,,,,,,,,,,,,,,,,1,1
+IPR037353,Histone methyltransferase complex subunit ASH2,,,,,1,,,,,,,,,,,,,,,,1,1
+IPR037841,"Histone-lysine N-methyltransferase SETD1A/B-like, SET domain",,,,,1,,,,,,,,,,,,,,,,1,1
+IPR039977,Histone-lysine N-methyltransferase Suv4-20/Set9,,,,,1,,,,,,,,,,,,,,,,1,1
+IPR042294,"Histone-lysine N-methyltransferase SETD2, animal",,,,,1,,,,,,,,,,,,,,,,1,1
+IPR044570,Histone-lysine N-methyltransferase Set1-like,,,,,1,,,,,,,,,,,,,,,,1,1
+IPR047219,"Histone-lysine N-methyltransferase 2A/2B, SET domain",,,,,1,,,,,,,,,,,,,,,,1,1
+IPR047232,"Histone-lysine N-methyltransferase SETDB1/2-like, methyl-CpG binding domains",,,,,1,,,,,,,,,,,,,,,,1,1
+IPR047426,"Histone-lysine N-methyltransferase NSD1 / NSD2, first PHD finger",,,,,1,,,,,,,,,,,,,,,,1,1
+IPR048669,"Histone-lysine N-methyltransferase SET1, RNA-binding domain",,,,,1,,,,,,,,,,,,,,,,1,1
+IPR021162,"Histone H3-K79 methyltransferase, fungi",,,,,,,,,,,,,,,,,,,,1,1,1
+IPR021169,"Histone H3-K79 methyltransferase, metazoa",,,,,,,,,,,,,,,,,,,,1,1,1
+IPR025789,Histone-lysine N-methyltransferase DOT1 domain,,,,,,,,,,,,,,,,,,,,1,1,1
+IPR030445,Histone H3-K79 methyltransferase,,,,,,,,,,,,,,,,,,,,1,1,1
+IPR011381,Histone-lysine N-methyltransferase SUV39H1/2-like,,,,,,,,1,,,,,,,,,,,,,1,1
+IPR025776,Histone-lysine N-methyltransferase SUVR4/SUVR1/SUVR2,,,,,,,1,1,,,,,,,,,,,,,1,1
+IPR025794,"Histone H3-K9 methyltransferase, plant",,,,,,,1,1,,,,,,,,,,,,,1,1
+IPR025796,Histone-lysine N-methyltransferase SETDB1,,,,,,,1,1,,,,,,,,,,,,,1,1
+IPR038035,"Histone-lysine N-methyltransferase EHMT1, SET domain",,,,,,,1,1,,,,,,,,,,,,,1,1
+IPR043550,Histone-lysine N-methyltransferase EHMT1/EHMT2,,,,,,,1,1,,,,,,,,,,,,,1,1
+IPR048414,"Histone-lysine N-methyltransferase PRDM9-like, C2H2 zinc finger-like",,,,,,,1,1,,,,,,,,,,,,,1,1
+IPR020989,"Histone-arginine methyltransferase CARM1, N-terminal",,,,,,,,,,,,,,,,,,,,,1,1
+IPR025783,"Histone-lysine N-methyltransferase Set9, fungi",,,,,,,,,,,,,,,,,,,,,1,1
+IPR025778,"Histone-lysine N-methyltransferase, plant",,,,,1,1,,1,1,,,,,,1,1,,,,1,,1
+IPR025780,Histone-lysine N-methyltransferase ATX,,,,,1,1,,1,1,,,,,,1,1,,,,1,,1
+IPR041291,"Histone methyltransferase, Tudor domain 1",,,,,1,1,,1,1,,,,,,1,1,,,,1,,1
+IPR041292,"Histone methyltransferase, Tudor domain 2",,,,,1,1,,1,1,,,,,,1,1,,,,1,,1
+IPR041938,"Histone-lysine N-methyltransferase, N-terminal domain",,,,,1,1,,1,1,,,,,,1,1,,,,1,,1

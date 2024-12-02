@@ -1,0 +1,4 @@
+Windows installation:
+Install R 4.4.1 for Windows (see exe in INSTALLATION folder)
+
+devtools::install_github("myname/mypackage")

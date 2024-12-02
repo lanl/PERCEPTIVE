@@ -1,0 +1,186 @@
+﻿Accession,Name,Source Database,Type,Integrated Into,Integrated Signatures,GO Terms
+IPR000119,Histone-like DNA-binding protein,interpro,family,,"PTHR33175,PF00216,SM00411,PR01727","GO:0003677,GO:0030527"
+IPR000164,Histone H3/CENP-A,interpro,family,,"PTHR45810,PTHR11426,PS00959,PS00322,SM00428,PR00622","GO:0003677,GO:0030527,GO:0000786"
+IPR000164,Histone H3/CENP-A,interpro,family,,"PTHR45810,PTHR11426,PS00959,PS00322,SM00428,PR00622","GO:0003677,GO:0030527,GO:0000786"
+IPR000286,Histone deacetylase family,interpro,family,,PR01270,
+IPR000558,Histone H2B,interpro,family,,"PS00357,PTHR23428,PR00621,SM00427","GO:0003677,GO:0030527,GO:0000786"
+IPR001525,C-5 cytosine methyltransferase,interpro,family,,"PS51679,PF00145,TIGR00675,PR00105",GO:0008168
+IPR001801,Histone-like protein H-NS,interpro,family,,"PIRSF002096,PF00816","GO:0003677,GO:0030527,GO:0006355"
+IPR001951,Histone H4,interpro,family,,"cd00076,PR00623,SM00417","GO:0003677,GO:0030527"
+IPR002052,"DNA methylase, N-6 adenine-specific, conserved site",interpro,conserved_site,,PS00092,"GO:0003676,GO:0008168,GO:0032259"
+IPR002102,"Cellulosome anchoring protein, cohesin domain",interpro,domain,,PF00963,"GO:0030246,GO:0000272"
+IPR002119,Histone H2A,interpro,family,,"cd00074,PTHR23430,PR00620,SM00414","GO:0003677,GO:0030527,GO:0000786"
+IPR002717,"Histone acetyltransferase domain, MYST-type",interpro,domain,,"PF01853,PS51726","GO:0004402,GO:0006355,GO:0016573"
+IPR002941,DNA methylase N-4/N-6,interpro,domain,,PF01555,"GO:0003677,GO:0008170,GO:0006306"
+IPR003000,Sirtuin family,interpro,family,,PF02146,GO:0070403
+IPR003084,Histone deacetylase,interpro,family,,"PR01271,PIRSF037913",
+IPR003356,"DNA methylase, adenine-specific",interpro,domain,,PF02384,"GO:0003677,GO:0008170,GO:0006306"
+IPR003958,Transcription factor CBF/NF-Y/archaeal histone domain,interpro,domain,,PF00808,
+IPR004656,Putative condensing enzyme FabH-related,interpro,family,,"MF_01409,TIGR00748",
+IPR004823,"TATA box binding protein associated factor (TAF), histone-like fold domain",interpro,domain,,"SM00803,PF02969",
+IPR005379,"Factor of DNA methylation 1-5/IDN2 , domain XH",interpro,domain,,PF03469,
+IPR005818,"Linker histone H1/H5, domain H15",interpro,domain,,"cd00073,PF00538,PS51504,SM00526","GO:0003677,GO:0006334,GO:0000786"
+IPR005819,Linker histone H1/H5,interpro,family,,PR00624,"GO:0003677,GO:0030527,GO:0006334,GO:0000786"
+IPR006818,Histone chaperone ASF1-like,interpro,family,,"PF04729,PTHR12040","GO:0006325,GO:0005634"
+IPR007125,Histone H2A/H2B/H3,interpro,domain,,PF00125,GO:0003677
+IPR007654,"NAD-dependent histone deacetylase Sir2, N-terminal",interpro,domain,,PF04574,
+IPR007673,Condensin subunit 1,interpro,family,,PIRSF017127,"GO:0000278,GO:0030261,GO:0005634"
+IPR008332,"Methylguanine DNA methyltransferase, ribonuclease-like domain",interpro,domain,,PF02870,"GO:0003908,GO:0006281"
+IPR008468,DNA methyltransferase 1-associated 1,interpro,domain,,PF05499,"GO:0045892,GO:0005634"
+IPR009072,Histone-fold,interpro,homologous_superfamily,,"SSF47113,G3DSA:1.10.20.10",GO:0046982
+IPR009207,"Histone-lysine N-methyltransferase, H3 lysine-37 specific",interpro,family,,PIRSF022536,GO:0062122
+IPR009378,"Condensin II complex subunit H2, N-terminal",interpro,domain,,PF06278,
+IPR009970,Histone H1-like nucleoprotein HC2,interpro,family,,PF07382,"GO:0003677,GO:0030527,GO:0030261"
+IPR010886,Histone H1-like Hc1,interpro,family,,PF07432,"GO:0003677,GO:0030527"
+IPR011381,Histone-lysine N-methyltransferase SUV39H1/2-like,interpro,family,,"PS51579,PIRSF009343","GO:0046974,GO:0034968,GO:0005634"
+IPR012327,D12 class N6 adenine-specific DNA methyltransferase,interpro,family,,"PTHR30481,TIGR00571,PR00505,PF02086","GO:0009007,GO:0032775"
+IPR012371,Condensin-2 complex subunit D3,interpro,family,,PIRSF036508,"GO:0007076,GO:0000796"
+IPR013178,Histone acetyltransferase Rtt109/CBP,interpro,family,,"SM01250,PTHR13808,PF08214","GO:0004402,GO:0006355,GO:0016573"
+IPR013194,Histone deacetylase interacting domain,interpro,domain,,"SM00761,PF08295",
+IPR013523,"Histone acetyltransferase HAT1, C-terminal",interpro,homologous_superfamily,,G3DSA:1.10.10.390,GO:0042393
+IPR013719,"Histone chaperone RTT106/FACT complex subunit SPT16-like, middle domain",interpro,domain,,"SM01287,PF08512",
+IPR013951,Histone deacetylation protein Rxt3,interpro,family,,PF08642,GO:0016575
+IPR014329,"M6 adenine DNA methyltransferase, Alw26I",interpro,family,,TIGR02987,
+IPR014455,"DNA methylase, N-6 adenine-specific, MK1259 type",interpro,family,,PIRSF009427,
+IPR015416,"Zinc finger, H2C2-type, histone UAS binding",interpro,domain,,PF09337,
+IPR016376,Histone acetyltransferase GCN5/PCAF,interpro,family,,PIRSF003048,"GO:0004402,GO:0006355,GO:0016573,GO:0005634"
+IPR016849,Histone acetyltransferase Rtt109,interpro,family,,"PS51728,PIRSF027124","GO:0010484,GO:0016573,GO:0043618,GO:0005634"
+IPR017111,"Histone-lysine N-methyltransferase Set1, fungi",interpro,family,,"PS51572,PIRSF037104","GO:0042800,GO:0034968,GO:0048188"
+IPR017155,Histone-lysine N-methyltransferase SETD7,interpro,family,,"PS51577,PIRSF037249","GO:0016279,GO:0140945,GO:0006355,GO:0034968,GO:0005694"
+IPR017250,Histone deacetylase complex subunit SAP18,interpro,family,,PIRSF037637,"GO:0003714,GO:0045892"
+IPR017282,Histone deposition protein Asf1,interpro,family,,PIRSF037759,"GO:0042393,GO:0006334,GO:0006337,GO:0016573,GO:0005634"
+IPR017320,"Histone deacetylase class II, eukaryotic-type",interpro,family,,PTHR45364,"GO:0004407,GO:0006325,GO:0016575,GO:0000118"
+IPR017321,"Histone deacetylase class II, yeast",interpro,family,,PIRSF037919,
+IPR017328,"Sirtuin, class I",interpro,family,,PIRSF037938,"GO:0017136,GO:0051287"
+IPR017366,Lysine-specific histone demethylase,interpro,family,,PIRSF038051,"GO:0050660,GO:0006355,GO:0034720,GO:0005634"
+IPR017380,"Histone acetyltransferase type B, catalytic subunit",interpro,family,,"PIRSF038084,PTHR12046","GO:0004402,GO:0016573,GO:0031509,GO:0005634"
+IPR017985,"DNA methylase, N-4 cytosine-specific, conserved site",interpro,conserved_site,,PS00093,"GO:0003677,GO:0015667,GO:0090124"
+IPR018117,"DNA methylase, C-5 cytosine-specific, active site",interpro,active_site,,PS00094,
+IPR019098,Histone chaperone domain CHZ,interpro,domain,,"SM01082,PF09649",
+IPR019340,Histone acetyltransferases subunit 3,interpro,family,,"PTHR13556,PF10198",
+IPR019361,Histone PARylation factor 1,interpro,family,,"PF10228,PTHR13386","GO:0042393,GO:0006974,GO:0010835"
+IPR019467,Histone acetyl transferase HAT1 N-terminal,interpro,domain,,PF10394,GO:0006325
+IPR019809,"Histone H4, conserved site",interpro,conserved_site,,PS00047,"GO:0003677,GO:0000786"
+IPR020816,"Histone-like DNA-binding protein, conserved site",interpro,conserved_site,,PS00045,GO:0003677
+IPR020989,"Histone-arginine methyltransferase CARM1, N-terminal",interpro,domain,,PF11531,
+IPR021162,"Histone H3-K79 methyltransferase, fungi",interpro,family,,PIRSF017570,"GO:0031151,GO:0042393,GO:0000077,GO:0006281,GO:0031509,GO:0034729,GO:0000786"
+IPR021169,"Histone H3-K79 methyltransferase, metazoa",interpro,family,,PIRSF037123,"GO:0031151,GO:0031507,GO:0034729,GO:0005634"
+IPR021171,Core histone macro-H2A,interpro,family,,PIRSF037942,"GO:0003677,GO:0030527,GO:0006334,GO:0000786"
+IPR021188,"N6 adenine-specific DNA methyltransferase, TaqI class",interpro,family,,PIRSF037236,
+IPR021654,Histone-lysine N-methyltransferase EZH1/EZH2,interpro,family,,PF11616,GO:0046976
+IPR022052,"Histone-binding protein RBBP4, N-terminal",interpro,domain,,PF12265,
+IPR022591,"Transcription initiation factor TFIID subunit 1, histone acetyltransferase domain",interpro,domain,,PF12157,
+IPR022749,"N6 adenine-specific DNA methyltransferase, N-terminal domain",interpro,domain,,PF12161,
+IPR022816,Condensin complex subunit 2/barren,interpro,family,,"PF05786,PIRSF017126,PTHR13108","GO:0007076,GO:0000796"
+IPR023135,"N6 adenine-specific DNA methyltransferase, TaqI class, C-terminal",interpro,homologous_superfamily,,G3DSA:3.90.220.10,
+IPR023801,Histone deacetylase domain,interpro,domain,,PF00850,
+IPR024137,Histone deacetylase complex subunit SAP130,interpro,family,,PTHR13497,GO:0006355
+IPR024145,Histone deacetylase complex subunit SAP30/SAP30-like,interpro,family,,PTHR13286,
+IPR024324,"Condensin complex subunit 1, N-terminal",interpro,domain,,PF12922,
+IPR024610,"Inhibitor of growth protein, N-terminal histone-binding",interpro,domain,,"PF12998,SM01408",
+IPR024636,Histone lysine methyltransferase SET associated,interpro,domain,,PF11767,
+IPR024643,"Histone deacetylase, glutamine rich N-terminal domain",interpro,domain,,PF12203,
+IPR024741,Condensin-2 complex subunit G2,interpro,family,,PF12422,GO:0005634
+IPR025717,Histone deacetylase complex subunit SAP30 zinc-finger,interpro,domain,,PF13866,
+IPR025718,"Histone deacetylase complex subunit SAP30, Sin3 binding domain",interpro,domain,,PF13867,GO:0005515
+IPR025776,Histone-lysine N-methyltransferase SUVR4/SUVR1/SUVR2,interpro,family,,PS51580,
+IPR025778,"Histone-lysine N-methyltransferase, plant",interpro,family,,PS51576,GO:0031519
+IPR025780,Histone-lysine N-methyltransferase ATX,interpro,family,,PS51566,
+IPR025783,"Histone-lysine N-methyltransferase Set9, fungi",interpro,family,,PS51567,"GO:0042799,GO:0034770"
+IPR025787,"Histone-lysine N-methyltransferase, SET2, plant",interpro,family,,PS51578,
+IPR025788,"Histone-lysine N-methyltransferase, Set2, fungi",interpro,family,,PS51568,"GO:0046975,GO:0010452"
+IPR025789,Histone-lysine N-methyltransferase DOT1 domain,interpro,domain,,"PS51569,PF08123",GO:0031151
+IPR025794,"Histone H3-K9 methyltransferase, plant",interpro,family,,PS51575,GO:0016571
+IPR025796,Histone-lysine N-methyltransferase SETDB1,interpro,family,,PS51573,
+IPR025805,Histone-lysine N-methyltransferase SMYD3,interpro,family,,PS51574,"GO:0140939,GO:0034968"
+IPR025977,"Nuclear condensin complex subunit 3, C-terminal domain",interpro,domain,,PF12719,
+IPR026502,Histone RNA stem-loop-binding protein SLBP1/SLBP2,interpro,family,,PTHR17408,GO:0003729
+IPR026587,"Sirtuin, class II",interpro,family,,MF_01967,"GO:0034979,GO:0051287"
+IPR026590,"Sirtuin family, catalytic core domain",interpro,domain,,PS50305,
+IPR026591,"Sirtuin, catalytic core small domain superfamily",interpro,homologous_superfamily,,G3DSA:3.30.1600.10,
+IPR026971,Condensin subunit 1/Condensin-2 complex subunit D3,interpro,family,,PTHR14222,GO:0007076
+IPR027109,SWR1-complex protein 4/DNA methyltransferase 1-associated protein 1,interpro,family,,PTHR12855,"GO:0006281,GO:0006338,GO:0043967,GO:0043968,GO:0035267"
+IPR027165,Condensin complex subunit 3,interpro,family,,PTHR14418,"GO:0007076,GO:0000796"
+IPR027444,"Histone-like protein H-NS, C-terminal domain",interpro,domain,,SM00528,GO:0003677
+IPR027454,"Histone-like protein H-NS, N-terminal",interpro,homologous_superfamily,,G3DSA:1.10.287.1050,GO:0046983
+IPR027546,"Sirtuin, class III",interpro,family,,"cd01412,MF_01121","GO:0036054,GO:0036055,GO:0070403"
+IPR028628,"Sirtuin, class U",interpro,family,,MF_01968,"GO:0034979,GO:0051287"
+IPR029163,Histone deacetylase complex subunit SAP25,interpro,family,,"PTHR39231,PF15476","GO:0006355,GO:0005634,GO:0005737"
+IPR029344,"Histone RNA hairpin-binding protein, RNA-binding domain",interpro,domain,,PF15247,GO:0003723
+IPR030445,Histone H3-K79 methyltransferase,interpro,family,,PTHR21451,"GO:0031151,GO:0034729,GO:0051726"
+IPR031162,CBP/p300-type histone acetyltransferase domain,interpro,domain,,PS51727,GO:0004402
+IPR031303,"DNA methylase, C-5 cytosine-specific, conserved site",interpro,conserved_site,,PS00095,
+IPR031444,"PCNA-associated factor, histone-like domain",interpro,domain,,PF15715,
+IPR031719,"Condensin II complex subunit H2, middle domain",interpro,domain,,PF16869,
+IPR031737,"Condensin-2 complex subunit H2, C-terminal",interpro,domain,,PF16858,
+IPR031739,Condensin-2 complex subunit H2,interpro,family,,PTHR14324,GO:0030261
+IPR031963,"Histone deacetylase complex subunit SAP130, C-terminal domain",interpro,domain,,PF16014,
+IPR032454,"Histone H2A, C-terminal domain",interpro,domain,,PF16211,
+IPR032458,Histone H2A conserved site,interpro,conserved_site,,PS00046,
+IPR032682,"Condensin complex subunit 1, C-terminal",interpro,domain,,PF12717,
+IPR033053,Histone transcription regulator 3/CABIN1,interpro,family,,PTHR15502,GO:0006325
+IPR035188,Histone-like protein p6,interpro,family,,PF17548,GO:0003677
+IPR035425,"CENP-T/Histone H4, histone fold",interpro,domain,,PF15511,
+IPR035796,"Core histone macro-H2A, macro domain",interpro,domain,,cd02904,
+IPR036747,Histone chaperone ASF1-like superfamily,interpro,homologous_superfamily,,"G3DSA:2.60.40.1490,SSF101546","GO:0006325,GO:0005634"
+IPR037113,"Histone acetyl transferase 1, N-terminal domain superfamily",interpro,homologous_superfamily,,G3DSA:3.90.360.10,GO:0006325
+IPR037138,Histone deacetylase domain superfamily,interpro,homologous_superfamily,,G3DSA:3.40.800.20,
+IPR037150,"Histone-like protein H-NS, C-terminal domain superfamily",interpro,homologous_superfamily,,G3DSA:4.10.430.10,GO:0003677
+IPR037353,Histone methyltransferase complex subunit ASH2,interpro,family,,PTHR10598,"GO:0051568,GO:0048188"
+IPR037800,Histone acetyltransferase GCN5,interpro,family,,PTHR45750,GO:0004402
+IPR037841,"Histone-lysine N-methyltransferase SETD1A/B-like, SET domain",interpro,domain,,cd19169,"GO:0042800,GO:0048188"
+IPR038035,"Histone-lysine N-methyltransferase EHMT1, SET domain",interpro,domain,,cd10535,"GO:0002039,GO:0016279,GO:0046974"
+IPR039321,Increased DNA methylation 2/3-like,interpro,family,,PTHR34661,
+IPR039662,Cohesin subunit Scc3/SA,interpro,family,,PTHR11199,
+IPR039977,Histone-lysine N-methyltransferase Suv4-20/Set9,interpro,family,,PTHR12977,
+IPR039994,Histone lysine demethylase/ribosomal histidine hydroxylase NO66-like,interpro,family,,PTHR13096,
+IPR040743,DNA methylase N-terminal domain,interpro,domain,,PF18284,
+IPR040993,"Histone chaperone Rtt106, N-terminal domain",interpro,domain,,"PF18215,cd11604",
+IPR041291,"Histone methyltransferase, Tudor domain 1",interpro,domain,,PF18359,
+IPR041292,"Histone methyltransferase, Tudor domain 2",interpro,domain,,PF18358,
+IPR041938,"Histone-lysine N-methyltransferase, N-terminal domain",interpro,homologous_superfamily,,G3DSA:1.10.10.1700,
+IPR042294,"Histone-lysine N-methyltransferase SETD2, animal",interpro,family,,PTHR46711,"GO:0016279,GO:0046975,GO:0097198"
+IPR043550,Histone-lysine N-methyltransferase EHMT1/EHMT2,interpro,family,,PTHR46307,"GO:0002039,GO:0016279,GO:0042054"
+IPR044150,Histone deacetylase 11,interpro,domain,,cd09993,"GO:0004407,GO:0016575"
+IPR044237,Histone-lysine N-methyltransferase ATXR2-like,interpro,family,,PTHR47436,GO:0008168
+IPR044238,Histone-lysine N-methyltransferase ASHR2-like,interpro,family,,PTHR47420,
+IPR044570,Histone-lysine N-methyltransferase Set1-like,interpro,family,,PTHR45814,"GO:0042800,GO:0051568"
+IPR044597,Single myb histone 1-6,interpro,family,,PTHR46267,GO:0003691
+IPR044891,"Histone chaperone Rtt106, N-terminal domain superfamily",interpro,homologous_superfamily,,G3DSA:6.10.10.70,
+IPR045109,Histone demethylase JHDM2-like,interpro,family,,PTHR12549,"GO:0032454,GO:0033169"
+IPR045177,Factor of DNA methylation 1-5/IDN2,interpro,family,,PTHR21596,GO:0080188
+IPR045318,Histone-lysine N-methyltransferase EZH1/2-like,interpro,family,,PTHR45747,"GO:0042054,GO:0006338"
+IPR046378,"Daxx, histone-binding domain",interpro,domain,,"PF20920,cd13150",
+IPR046426,"Daxx, histone-binding domain superfamily",interpro,homologous_superfamily,,G3DSA:1.20.58.2170,GO:0042393
+IPR046949,Histone deacetylase 4/5/7/9,interpro,family,,PIRSF037911,"GO:0004407,GO:0000122,GO:0016575"
+IPR047219,"Histone-lysine N-methyltransferase 2A/2B, SET domain",interpro,domain,,cd19170,
+IPR047232,"Histone-lysine N-methyltransferase SETDB1/2-like, methyl-CpG binding domains",interpro,domain,,cd01395,
+IPR047426,"Histone-lysine N-methyltransferase NSD1 / NSD2, first PHD finger",interpro,domain,,cd15648,
+IPR047451,"Histone-lysine N-methyltransferase NSD3, first PWWP domain",interpro,domain,,cd20163,
+IPR047453,"Histone-lysine N-methyltransferase NSD3, second PWWP domain",interpro,domain,,cd20166,
+IPR047456,"Histone-lysine N-methyltransferase NSD3, second PHD finger",interpro,domain,,cd15652,
+IPR047458,"Histone-lysine N-methyltransferase NSD3, fourth PHD finger",interpro,domain,,cd15658,
+IPR047461,"Histone-lysine N-methyltransferase NSD3, SET domain",interpro,domain,,cd19212,
+IPR047527,"Histone-lysine N-methyltransferase NSD3, fifth PHD finger",interpro,domain,,cd15661,
+IPR047714,"Mks condensin complex protein MksF, putative",interpro,family,,NF040859,
+IPR047720,"Mks condensin complex protein MksB, putative",interpro,family,,NF040857,
+IPR047723,"Mks condensin complex protein MksE, putative",interpro,family,,NF040858,
+IPR048414,"Histone-lysine N-methyltransferase PRDM9-like, C2H2 zinc finger-like",interpro,domain,,PF21225,GO:0008270
+IPR048610,"Cohesin subunit SCC3, C-terminal domain",interpro,domain,,PF21767,GO:0005515
+IPR048669,"Histone-lysine N-methyltransferase SET1, RNA-binding domain",interpro,domain,,PF21569,
+IPR048776,"Histone acetyltransferase type B catalytic subunit, C-terminal",interpro,domain,,PF21183,
+IPR048864,Histone H3 binding protein ORF158L-like,interpro,family,,PF21644,
+IPR048864,Histone H3 binding protein ORF158L-like,interpro,family,,PF21644,
+IPR001025,Bromo adjacent homology (BAH) domain,interpro,domain,,"PS51038,PF01426,SM00439",GO:0003682
+IPR001091,Restriction/modification DNA-methyltransferase,interpro,family,,PR00508,"GO:0003677,GO:0008170,GO:0006306"
+IPR015270,"Protein RDM1, plant",interpro,family,,"PTHR36366,PF09187","GO:0044030,GO:0005634"
+IPR017198,DNA (cytosine-5)-methyltransferase 1-like,interpro,family,,PIRSF037404,"GO:0003886,GO:0090116,GO:0005634"
+IPR017198,DNA (cytosine-5)-methyltransferase 1-like,interpro,family,,PIRSF037404,"GO:0003886,GO:0090116,GO:0005634"
+IPR022702,"DNA (cytosine-5)-methyltransferase 1, replication foci domain",interpro,domain,,PF12047,
+IPR023780,Chromo domain,interpro,domain,,PF00385,
+IPR025794,"Histone H3-K9 methyltransferase, plant",interpro,family,,PS51575,GO:0016571
+IPR029063,S-adenosyl-L-methionine-dependent methyltransferase superfamily,interpro,homologous_superfamily,,"G3DSA:3.40.50.150,SSF53335",
+IPR030380,SAM-dependent methyltransferase DRM,interpro,domain,,PS51680,GO:0006306
+IPR040552,"DNMT3, cysteine rich ADD domain",interpro,domain,,PF17980,"GO:0006306,GO:0010468"
+IPR030488,"DNA (cytosine-5)-methyltransferase 3B, ADD domain",interpro,domain,,cd11728,"GO:0009008,GO:0006306,GO:0010468"
+IPR040175,Methylcytosine dioxygenase TET1/2/3,interpro,family,,PTHR23358,"GO:0070579,GO:0006211,GO:0080111"
