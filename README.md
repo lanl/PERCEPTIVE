@@ -96,6 +96,8 @@ Similar to mode one, this mode solely requires input of either unassembled short
 #### Four: Genome assembly with RNA-seq
 Similar to mode three, this  mode requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assembly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size. We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. This mode additionally requires unaligned RNA-seq data from a total RNA library preparation, (see note above). (Selections: Would you like to perform de novo genome assembly: yes, short (velvet) or long (canu), RNA-seq: yes)
 ## COPYRIGHT
+This package relies on several dependencies and pipelines. The authors make no claim of ownership, copyright, or maintenance for any or all of these dependencies.
+
 DOE NNSA O# (O4768) 
 
 © 2024. Triad National Security, LLC. All rights reserved.
