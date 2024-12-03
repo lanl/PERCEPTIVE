@@ -6,6 +6,8 @@ The PERCEPTIVE app function encompasses the entirety of the data visualization a
 
 The Pipeline function encompasses the entirety of the annotation pipeline (from unassembled genome to predictions). This function will ONLY run in a Linux environment, and requires several additional dependencies be downloaded from gdrive.
 
+The manuscript preprint which details this package can be found [here](https://www.biorxiv.org/content/10.1101/2024.11.20.624555v1)
+
 ## Installation
 First determine if you are an app user (you want to view data which has already been processed by another user) or a pipeline user (you intend to process raw data for subsequent visualization). Installation is broken down based on user case below.
 ## Dependencies common to both functions
