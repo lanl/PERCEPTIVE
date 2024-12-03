@@ -85,7 +85,16 @@ To run the Pipeline Graphical Interface for annotation of chromatin modifiying e
 ```
 PERCEPTIVEv3::Pipeline()
 ```
-
+### Options
+The Pipeline function will prompt the user for several inputs prior to running. These input represent four run modes (although not explicitly refered to as modes 1-4 within the interface). The first two modes are recommended, and in most cases mode one is sufficient. Modes three and four are experimental. Modes three and four assume a "typical" diploid genome. In most cases it would be prefereable to assemble a de novo genome before running through the Pipeline.
+#### One: Assembled Genome without RNA-seq
+In this mode the input is solely an unmasked assembled genome. This genome could be generated in-house, or downloaded from JGI,NCBI,ENSEMBLE, etc. In this mode BRAKER3 will use the Eukaryotic OrthoDB database for protein prediction. (Selections: Would you like to perform de novo genome assembly: no, RNA-seq: no)
+#### Two: Assembled Geneome with RNA-seq
+In this mode the input is an unmasked assembled genome and unaligned RNA-seq reads from a total RNA library preparation (note: sequencing depth must be at minumum 20X coverage for the transcriptome). This mode may perform better if a species is highly esoteric, ie., it is expected to possess many proteins with high divergence from other Eukaryotes. (Selections: Would you like to perform de novo genome assembly: no, RNA-seq: yes)
+#### Three: Genome assembly without RNA-seq
+Similar to mode one, this mode solely requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assebmly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size. We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. (Selections: Would you like to perform de novo genome assembly: yes, short(velvet) or long (canu), RNA-seq: no)
+#### Four: Genome assembly with RNA-seq
+Similar to mode three, this  mode requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assebmly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size. We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. This mode additionally requires unaligned RNA-seq data from a total RNA library preparation, (see note above). (Selections: Would you like to perform de novo genome assembly: yes, short (velvet) or long (canu), RNA-seq: yes)
 ## COPYRIGHT
 DOE NNSA O# (O4768) 
 
