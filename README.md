@@ -8,13 +8,13 @@ The Pipeline function encompasses the entirety of the annotation pipeline (from 
 
 ## Installation
 First determine if you are an app user (you want to view data which has already been processed by another user) or a pipeline user (you intend to process raw data for subsequent visualization). Installation is broken down based on user case below.
-## Dependencies commond to both functions
+## Dependencies common to both functions
 Follow these directions irrespective of which function you intend to use.
 ### Rstudio and R
 Both the Pipeline and App functions require a current version of R to be installed, and the R devtools package to download and install PERCEPTIVE from github. 
 Here we recommend that users download and install Rstudio (which for some operating systems includes R), found [here](https://posit.co/download/rstudio-desktop/) for easier graphical interfacing, and R version 4.4 (Pile of Leaves). R version 4.4.x can be found for Windows OS [here](https://cran.r-project.org/bin/windows/base/), and Linux and OS X (Darwin) [here](https://cran.r-project.org/src/base/R-4/).
 ### R devtools
-Once you have installed R, start an R terminal using the R GUI, or open RStudio (the terminal can be found at the bottom left corner). Run the following command:
+Once you have installed R, start an R terminal using the R GUI or open RStudio (the terminal can be found at the bottom left corner). Run the following command:
 ```
 install.packages("devtools")
 ```
@@ -29,9 +29,7 @@ Be certain to accept "All" dependencies if prompted
 The Pipeline function requires Singularity 4.2.x or greater, two Singularity images and one OrthoDB database to run properly.
 ### Install Singularity (Apptainer)
 To install Singularity run the following in a terminal:
-DEBIAN/UBUNTU
 
-CENTOS/RHEL
 Install GO compiler
 ```
 wget https://go.dev/dl/go1.23.3.linux-amd64.tar.gz && \
@@ -59,13 +57,13 @@ sudo make -C ./builddir install
 Alternatively, visit the Singularity documentation [here](https://docs.sylabs.io/guides/3.0/user-guide/installation.html) for more information. Note, as of December 2024 the Singularity documentation is out of date, and provides instructions to install Singularity version 3.x. PERCEPTIVE requires 4.2.x or greater.
 
 ### Download Singularity images and OrthoDB database.
-PERCEPTIVE requires several singularity images databases. These are provided via gdrive in the links below. On startup PERCEPTIVE will prompt the user for paths to these files. 
+PERCEPTIVE requires several singularity images and a precompiled database for BRAKER3. These are provided via gdrive at the links below. On startup PERCEPTIVE will prompt the user for paths to these files. 
 
 The BRAKER3 image can be generated following the instruction in the [BRAKER3 documentation](https://github.com/Gaius-Augustus/BRAKER), or can be downloaded from gdrive here:[braker.sif](https://drive.google.com/file/d/152hLaqatgFi6k7oyWFv47gTMb_26Sh_j/view?usp=drive_link).
-The Perceptive Singularity image can be downloaded here: [Perceptivev0.1.sif](https://drive.google.com/file/d/1-44qtlKWFssNO9utKUikWy10yjTFRH7n/view?usp=drive_link).
-The prepartitioned OrthoDB database compiled for BRAKER3 can be downloaded here: [Eukaryota.fa](https://drive.google.com/file/d/1WoalwL3oIZfgH7mYAfF0HEbwIhVvFGMM/view?usp=drive_link). Newer [versions](https://github.com/Gaius-Augustus/BRAKER) may be available from the maintainers of BRAKER3, but support is not guaranteed.
+The Perceptive Singularity image can be downloaded from gdrive here: [Perceptivev0.1.sif](https://drive.google.com/file/d/1-44qtlKWFssNO9utKUikWy10yjTFRH7n/view?usp=drive_link).
+The prepartitioned OrthoDB database compiled for BRAKER3 can be downloaded from gdrive here: [Eukaryota.fa](https://drive.google.com/file/d/1WoalwL3oIZfgH7mYAfF0HEbwIhVvFGMM/view?usp=drive_link). Newer [versions](https://github.com/Gaius-Augustus/BRAKER) may be available from the maintainers of BRAKER3, but support is not guaranteed.
 
-PERCEPTIVE also requires a license file for GeneMark, which can be found [here](https://genemark.bme.gatech.edu/license_download.cgi). The genemark license upon download will be in gzipped. PERCEPTIVE expect the licence to be unzipped. 
+PERCEPTIVE also requires a license file for GeneMark, which can be found [here](https://genemark.bme.gatech.edu/license_download.cgi). Upon download the genemark license will be gzipped. PERCEPTIVE expect the licence to be unzipped. 
 To unzip run the following:
 ```
 gzip -d [pathtoyourlicensefile]
