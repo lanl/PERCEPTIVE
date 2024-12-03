@@ -18,7 +18,8 @@ install.packages("devtools")
 ```
 ### To install PERCEPTIVE package
 Run the following command in the R terminal: 
-```devtools::install_github("https://github.com/lanl/PERCEPTIVE.git", dependencies = TRUE)
+```
+devtools::install_github("https://github.com/lanl/PERCEPTIVE.git", dependencies = TRUE)
 ```
 ## Dependencies for just the pipeline function (LINUX only)
 [braker.sif](https://drive.google.com/file/d/152hLaqatgFi6k7oyWFv47gTMb_26Sh_j/view?usp=drive_link)
