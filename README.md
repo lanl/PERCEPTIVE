@@ -1,6 +1,6 @@
 # PERCEPTIVE
 PERCEPTIVE is an R Shiny based graphical interface for the prediction and annotation of chromatin modifiying enzymes in novel or poorly studied species. PERCEPTIVE applies heuristic models and model species information to make predictions and provides end users with a graphical interpretation of the data.
-PERCEPTIVE is broken into two graphical R Shiny functions, the PERCEPTIVE app function and the Pipeline function. 
+PERCEPTIVE is broken into two graphical R Shiny functions: the PERCEPTIVE app function and the Pipeline function. 
 
 The PERCEPTIVE app function encompasses the entirety of the data visualization and prediction tool. This tool is agnostic of operating system, and should run on any OS with support for R and basic CRAN packages.
 
