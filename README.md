@@ -67,7 +67,7 @@ The Perceptive Singularity image can be downloaded from gdrive [here](https://dr
 
 The pre-partitioned OrthoDB database compiled for BRAKER3 can be downloaded from gdrive [here](https://drive.google.com/file/d/1WoalwL3oIZfgH7mYAfF0HEbwIhVvFGMM/view?usp=drive_link). Newer [versions](https://github.com/Gaius-Augustus/BRAKER) may be available from the maintainers of BRAKER3, but support is not guaranteed.
 
-PERCEPTIVE also requires a license file for GeneMark, which can be found [here](https://genemark.bme.gatech.edu/license_download.cgi). Upon download the genemark license will be gzipped. PERCEPTIVE expect the license to be unzipped. 
+PERCEPTIVE also requires a license file for GeneMark, which can be found [here](https://genemark.bme.gatech.edu/license_download.cgi). Please select: GeneMark-ES/ET/EP+ ver 4.72_lic,  LINUX 64 kernel 3.10 - 5. Upon download the genemark license will be gzipped. PERCEPTIVE expect the license to be unzipped. 
 To unzip run the following:
 ```
 gzip -d [pathtoyourlicensefile]
