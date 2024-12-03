@@ -1,8 +1,8 @@
 # PERCEPTIVE
 PERCEPTIVE is an R Shiny based graphical interface for the prediction and annotation of chromatin modifiying enzymes in novel or poorly studied species. PERCEPTIVE applies heuristic models and model species information to make predictions and provides end users with a graphical interpretation of the data.
-PERCEPTIVE is broken into two graphical R functions, PERCEPTIVE app function and the Pipeline function. 
+PERCEPTIVE is broken into two graphical R Shiny functions, the PERCEPTIVE app function and the Pipeline function. 
 
-The PERCEPTIVE app function encompasses the entirety of the data visualization and prediction tool. This tool is agnostic of operating system, and should run on any OS with support for R, and basic CRAN packages.
+The PERCEPTIVE app function encompasses the entirety of the data visualization and prediction tool. This tool is agnostic of operating system, and should run on any OS with support for R and basic CRAN packages.
 
 The Pipeline function encompasses the entirety of the annotation pipeline (from unassembled genome to predictions). This function will ONLY run in a linux environment, and requires several additional dependencies be downloaded from gdrive.
 
@@ -18,7 +18,7 @@ Once you have installed R, start an R terminal using the R GUI, or open RStudio 
 ```
 install.packages("devtools")
 ```
-### To install PERCEPTIVE package
+### To install the PERCEPTIVE package
 Run the following command in the R terminal:
 ```
 devtools::install_github("https://github.com/lanl/PERCEPTIVE.git", dependencies = TRUE)
@@ -32,13 +32,45 @@ To install Singularity run the following in a terminal:
 DEBIAN/UBUNTU
 
 CENTOS/RHEL
+Install GO compiler
+```
+wget https://go.dev/dl/go1.23.3.linux-amd64.tar.gz && \
+sudo tar -C /usr/local -xzvf https://go.dev/dl/go1.23.3.linux-amd64.tar.gz && \
+rm https://go.dev/dl/go1.23.3.linux-amd64.tar.gz
+```
+Setup GO Environment
+```
+echo 'export GOPATH=${HOME}/go' >> ~/.bashrc && \
+    echo 'export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin' >> ~/.bashrc && \
+    source ~/.bashrc
+```
+Install Singularity
+```
+mkdir -p $GOPATH/src/github.com/sylabs && \
+cd $GOPATH/src/github.com/sylabs && \
+wget https://github.com/sylabs/singularity/releases/download/v4.2.1/singularity-ce-4.2.1.tar.gz && \
+tar -xzf singularity-${VERSION}.tar.gz && \
+cd ./singularity && \
+./mconfig && \
+make -C ./builddir && \
+sudo make -C ./builddir install
 
+```
 Alternatively, visit the Singularity documentation [here](https://docs.sylabs.io/guides/3.0/user-guide/installation.html) for more information. Note, as of December 2024 the Singularity documentation is out of date, and provides instructions to install Singularity version 3.x. PERCEPTIVE requires 4.2.x or greater.
 
 ### Download Singularity images and OrthoDB database.
+PERCEPTIVE requires several singularity images databases. These are provided via gdrive in the links below. On startup PERCEPTIVE will prompt the user for paths to these files. 
+
 The BRAKER3 image can be generated following the instruction in the [BRAKER3 documentation](https://github.com/Gaius-Augustus/BRAKER), or can be downloaded from gdrive here:[braker.sif](https://drive.google.com/file/d/152hLaqatgFi6k7oyWFv47gTMb_26Sh_j/view?usp=drive_link).
 The Perceptive Singularity image can be downloaded here: [Perceptivev0.1.sif](https://drive.google.com/file/d/1-44qtlKWFssNO9utKUikWy10yjTFRH7n/view?usp=drive_link).
 The prepartitioned OrthoDB database compiled for BRAKER3 can be downloaded here: [Eukaryota.fa](https://drive.google.com/file/d/1WoalwL3oIZfgH7mYAfF0HEbwIhVvFGMM/view?usp=drive_link). Newer [versions](https://github.com/Gaius-Augustus/BRAKER) may be available from the maintainers of BRAKER3, but support is not guaranteed.
+
+PERCEPTIVE also requires a license file for GeneMark, which can be found [here](https://genemark.bme.gatech.edu/license_download.cgi). The genemark license upon download will be in gzipped. PERCEPTIVE expect the licence to be unzipped. 
+To unzip run the following:
+```
+gzip -d [pathtoyourlicensefile]
+```
+
 
 ## COPYRIGHT
 DOE NNSA O# (O4768) 
