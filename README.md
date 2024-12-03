@@ -59,9 +59,11 @@ Alternatively, visit the Singularity documentation [here](https://docs.sylabs.io
 ### Download Singularity images and OrthoDB database.
 PERCEPTIVE requires several singularity images and a precompiled database for BRAKER3. These are provided via gdrive at the links below. On startup PERCEPTIVE will prompt the user for paths to these files. 
 
-The BRAKER3 image can be generated following the instruction in the [BRAKER3 documentation](https://github.com/Gaius-Augustus/BRAKER), or can be downloaded from gdrive here:[braker.sif](https://drive.google.com/file/d/152hLaqatgFi6k7oyWFv47gTMb_26Sh_j/view?usp=drive_link).
-The Perceptive Singularity image can be downloaded from gdrive here: [Perceptivev0.1.sif](https://drive.google.com/file/d/1-44qtlKWFssNO9utKUikWy10yjTFRH7n/view?usp=drive_link).
-The prepartitioned OrthoDB database compiled for BRAKER3 can be downloaded from gdrive here: [Eukaryota.fa](https://drive.google.com/file/d/1WoalwL3oIZfgH7mYAfF0HEbwIhVvFGMM/view?usp=drive_link). Newer [versions](https://github.com/Gaius-Augustus/BRAKER) may be available from the maintainers of BRAKER3, but support is not guaranteed.
+The BRAKER3 image can be generated following the instruction in the [BRAKER3 documentation](https://github.com/Gaius-Augustus/BRAKER), or can be downloaded from gdrive [here](https://drive.google.com/file/d/152hLaqatgFi6k7oyWFv47gTMb_26Sh_j/view?usp=drive_link).
+
+The Perceptive Singularity image can be downloaded from gdrive [here](https://drive.google.com/file/d/1-44qtlKWFssNO9utKUikWy10yjTFRH7n/view?usp=drive_link).
+
+The prepartitioned OrthoDB database compiled for BRAKER3 can be downloaded from gdrive [here](https://drive.google.com/file/d/1WoalwL3oIZfgH7mYAfF0HEbwIhVvFGMM/view?usp=drive_link). Newer [versions](https://github.com/Gaius-Augustus/BRAKER) may be available from the maintainers of BRAKER3, but support is not guaranteed.
 
 PERCEPTIVE also requires a license file for GeneMark, which can be found [here](https://genemark.bme.gatech.edu/license_download.cgi). Upon download the genemark license will be gzipped. PERCEPTIVE expect the licence to be unzipped. 
 To unzip run the following:
