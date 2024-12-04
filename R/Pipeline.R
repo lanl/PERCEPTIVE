@@ -66,23 +66,29 @@ Pipeline<-function()
       shinyFileChoose(input, 'fastq', roots=volumes)
 
     }
+    )
+    observe({
+      shinyFileChoose(input, 'fastqR1RNA', roots=volumes)
 
+    }
+    )
+
+    observe({
+      shinyFileChoose(input, 'fastqR2RNA', roots=volumes)
+
+    }
     )
 
     observe({
       shinyDirChoose(input, 'endlocation', roots=volumes)
 
     }
-
-
-
     )
 
     observe({
       shinyFileChoose(input, 'orthodb', roots=volumes)
 
     }
-
     )
 
     observe({
@@ -171,86 +177,537 @@ if(is.na(defaults[1,1]))
 
     observeEvent(input$run,{
         speciesout<<-input$speciesname
-        novode<<-input$denovo
-        if(novode=="Yes")
-        {
-        datalocationout<<- as.character(parseFilePaths(roots = volumes, input$fastq)[4])
-        }else if (novode=="No")
-        {
-        datalocationout<<- as.character(parseFilePaths(roots = volumes, input$fasta)[4])
-        }
         finallocation<<- as.character(parseDirPath(roots = volumes, input$endlocation))
         cladeout<<-input$clade
         nprocout<<-input$numcore
         evalout<<-input$eval
-
+        novode<<-input$denovo
+        RNAeval<<-input$RNA
+        if(novode=="Yes" && RNAeval=="No")
+        {
+        datalocationout<<- as.character(parseFilePaths(roots = volumes, input$fastq)[4])
         short<<-input$length
+            if(short=="Long")
+            {
+            technology<<-input$tech
+            gsize<<-input$genomesize
+            if (speciesout=="" || datalocationout=="" || cladeout=="" || nprocout=="" || evalout=="" || length(finallocation)==0 || technology=="" || gsize=="")
+            {
+              showModal(modalDialog(
+                title = "WARNING",
+                paste0("All selections not completed"),
+                easyClose = TRUE,
+                footer = NULL
+              ))
 
-      if (speciesout=="" || datalocationout=="" || cladeout=="" || nprocout=="" || evalout=="")
-      {
-        showModal(modalDialog(
-          title = "WARNING",
-          paste0("All selections not completed"),
-          easyClose = TRUE,
-          footer = NULL
-        ))
+            }else{
+              if(technology=="Nanopore")
+              {tnolog<<-"-nanopore-raw"
+              }else if (technology=="Pacbio")
+              {
+              tnolog<<-"-pacbio"
+              }else if (technology=="Pacbio HiFi")
+              {tnolog<<-"-pacbio-hifi"}
+              fileConn<-file("Canu.sh")
+              writeLines(
+                c("mkdir tempforpipeline",
+                  "cd tempforpipeline/",
+                  paste("cp",noquote(datalocationout),  "input.fastq"),
+                  paste0("singularity exec ../Perceptivev0.1.sif canu -d assembly -p assembled genomesize=",gsize, " ", tnolog, " input.fastq"),
+                  "cp assembly/assembled.contig.fasta input.fasta"
 
-      }else{
-      fileConn<-file("RepeatMasker.sh")
-      writeLines(
-        c("mkdir tempforpipeline",
-          "cd tempforpipeline/",
-          paste("cp",noquote(datalocationout),  "input.fasta"),
-          paste("singularity overlay create -s 10000 temp.img"),
-          paste("singularity exec --overlay temp.img ../Perceptivev0.1.sif RepeatMasker input.fasta --xsmall -species",cladeout, "-pa",nprocout)
-
-
-          ), fileConn)
-      close(fileConn)
-
-      fileConn<-file("braker.sh")
-      writeLines(
-
-        c("cd tempforpipeline/",
-          paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
-        , fileConn)
-      close(fileConn)
+                ), fileConn)
+              close(fileConn)
 
 
-      fileConn<-file("interpro.sh")
-      writeLines(
-        c(
-          "cd tempforpipeline/",
-          "mkdir interpro",
-          "cp braker/braker.aa interpro/",
-          "cd interpro/",
-          paste("sed", '"s/\\*//g"', "< braker.aa > braker.peptide"),
-          "rm braker.aa",
-          paste("singularity exec --overlay ../temp.img ../../Perceptivev0.1.sif interproscan.sh -i braker.peptide -cpu", nprocout, "-dp --goterms -appl AntiFam-7.0,CDD-3.20,Coils-2.2.1,FunFam-4.3.0,Gene3D-4.3.0,Hamap-2023_05,NCBIfam-15.0,PANTHER-19.0,Pfam-37.0,PIRSF-3.10,PIRSR-2023_05,PRINTS-42.0,ProSitePatterns-2023_05,ProSiteProfiles-2023_05,SFLD-4,SMART-9.0,SUPERFAMILY-1.75"),
-          "rm -r temp/",
-          "rm ../temp.img"
+              fileConn<-file("RepeatMasker.sh")
+              writeLines(
+                c("cd tempforpipeline/",
+                  paste("singularity overlay create -s 10000 temp.img"),
+                  paste("singularity exec --overlay temp.img ../Perceptivev0.1.sif RepeatMasker input.fasta --xsmall -species",cladeout, "-pa",nprocout)
 
-        ), fileConn)
-      close(fileConn)
 
-      fileConn<-file("blasting.sh")
-      writeLines(
-        c("cd tempforpipeline/interpro",
-          paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
-          "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
-          "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
-          "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
-          "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
-          paste("
+                ), fileConn)
+              close(fileConn)
+
+              fileConn<-file("braker.sh")
+              writeLines(
+
+                c("cd tempforpipeline/",
+                  paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
+                , fileConn)
+              close(fileConn)
+
+
+              fileConn<-file("interpro.sh")
+              writeLines(
+                c(
+                  "cd tempforpipeline/",
+                  "mkdir interpro",
+                  "cp braker/braker.aa interpro/",
+                  "cd interpro/",
+                  paste("sed", '"s/\\*//g"', "< braker.aa > braker.peptide"),
+                  "rm braker.aa",
+                  paste("singularity exec --overlay ../temp.img ../../Perceptivev0.1.sif interproscan.sh -i braker.peptide -cpu", nprocout, "-dp --goterms -appl AntiFam-7.0,CDD-3.20,Coils-2.2.1,FunFam-4.3.0,Gene3D-4.3.0,Hamap-2023_05,NCBIfam-15.0,PANTHER-19.0,Pfam-37.0,PIRSF-3.10,PIRSR-2023_05,PRINTS-42.0,ProSitePatterns-2023_05,ProSiteProfiles-2023_05,SFLD-4,SMART-9.0,SUPERFAMILY-1.75"),
+                  "rm -r temp/",
+                  "rm ../temp.img"
+
+                ), fileConn)
+              close(fileConn)
+
+              fileConn<-file("blasting.sh")
+              writeLines(
+                c("cd tempforpipeline/interpro",
+                  paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                  "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                  "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                  "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                  "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                  paste("
                 singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
-          paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
-        ), fileConn)
-      close(fileConn)
+                  paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+                ), fileConn)
+              close(fileConn)
 
-      fileConn<-file("parsing.sh")
-      writeLines(
-        c("cd tempforpipeline/interpro",
-          "cut -f2 blastbpstricteval.table >blastpstrictevalgenes.txt",
+              fileConn<-file("parsing.sh")
+              writeLines(
+                c("cd tempforpipeline/interpro",
+                  "cut -f2 blastbpstricteval.table >blastpstrictevalgenes.txt",
+                  "for line in $(cat blastpstrictevalgenes.txt); do grep -w $line ../../../temp.faa >> Speciesandprotein.txt; done",
+                  paste("grep", '"IPR002119"', "braker.peptide.tsv | cut -f1 | sort -u > H2A.txt"),
+                  paste("grep", '"IPR000558"', "braker.peptide.tsv | cut -f1 | sort -u > H2B.txt"),
+                  paste("grep", '"IPR000164"', "braker.peptide.tsv | cut -f1 | sort -u > H3.txt"),
+                  paste("grep", '"IPR001951"', "braker.peptide.tsv | cut -f1 | sort -u > H4.txt"),
+                  paste("grep", '"IPR005819"', "braker.peptide.tsv | cut -f1 | sort -u > H1.txt"),
+                  "grep -w -A 2 -f H1.txt  braker.peptide --no-group-separator > H1",
+                  "grep -w -A 2 -f H3.txt  braker.peptide --no-group-separator > H3",
+                  "grep -w -A 2 -f H4.txt  braker.peptide --no-group-separator > H4",
+                  "grep -w -A 2 -f H2A.txt  braker.peptide --no-group-separator > H2A",
+                  "grep -w -A 2 -f H2B.txt  braker.peptide --no-group-separator > H2B",
+                  "rm H1.txt H2A.txt H2B.txt H3.txt H4.txt",
+                  "mv braker.peptide.gff3 Interpro_annotation.gff3",
+                  "mv braker.peptide.json Interpro_annotation.json",
+                  "mv braker.peptide.tsv Interpro_annotation.tsv",
+                  "mv braker.peptide.xml Interpro_annotation.xml",
+                  "mkdir FilesforGUI",
+                  "mv Speciesandprotein.txt FilesforGUI/",
+                  "mv blastbpstricteval.table FilesforGUI/",
+                  "mv InterproIdentified.txt FilesforGUI/",
+                  "cp ../../../ListofINTERPRONUMBERS.csv FilesforGUI/",
+                  "mv H1 H2A H2B H3 H4 FilesforGUI/",
+                  "cp ../../../humanhistones.csv FilesforGUI/",
+                  "cp ../../../Interprofunctions.csv FilesforGUI/",
+                  "cp ../../../scerhistones.csv FilesforGUI/",
+                  "cp ../../../associationTable.csv FilesforGUI/",
+                  "mv FilesforGUI/ ../",
+                  "cd ../"
+
+                ), fileConn)
+              close(fileConn)
+
+
+              system("chmod +x *.sh")
+              withProgress(message = "Annotation in progress, be patient", value=0, detail="0%: Running Canu",
+                           {
+                             system("./Canu.sh")
+                             incProgress(0.05,detail = paste0("5%: Running RepeatMasker"))
+                             system("./RepeatMasker.sh")
+                             incProgress(0.15,detail = paste0("15%: Running BRAKER3 Pipeline"))
+                             system("./braker.sh")
+                             incProgress(0.55,detail = paste0("55%: Running Interproscan"))
+                             system("./interpro.sh")
+                             incProgress(0.80,detail = paste0("80%: Running BLAST+"))
+                             system("./blasting.sh")
+                             incProgress(0.90,detail = paste0("90%: Parsing Outputs"))
+                             setwd("tempforpipeline/interpro")
+                             blast<-read.table("nocommentedlines.txt", sep="\t", header=FALSE)
+                             limited<-blast[which(blast[,11]<=evalout),]
+                             write.table(limited, "blastbpstricteval.table", sep="\t", row.names=FALSE, col.names= FALSE, quote=FALSE)
+                             setwd("../../")
+                             system("./parsing.sh")
+                             incProgress(0.99,detail = paste0("99%: Moving Files To Final Location"))
+                             system(paste("mv tempforpipeline",paste0(finallocation,"/",speciesout)))
+                             incProgress(1,detail = paste0("100%"))
+                           })
+            }
+
+            }else(short=="short")
+        {        if (speciesout=="" || datalocationout=="" || cladeout=="" || nprocout=="" || evalout=="" || length(finallocation)==0)
+        {
+          showModal(modalDialog(
+            title = "WARNING",
+            paste0("All selections not completed"),
+            easyClose = TRUE,
+            footer = NULL
+          ))
+
+        }else{
+
+          fileConn<-file("Velvet.sh")
+          writeLines(
+            c("mkdir tempforpipeline",
+              "cd tempforpipeline/",
+              "mkdir Velvet",
+              "cd Velvet/",
+              paste("cp",noquote(datalocationout),  "input.fastq"),
+              paste("singularity exec ../../Perceptivev0.1.sif velveth assembly 31 -fastq input.fastq"),
+              paste("singularity exec ../../Perceptivev0.1.sif velvetg assembly -exp_cov auto -cov_cutoff auto"),
+              "cp assembly/contigs.fa ../input.fasta",
+              "cd ../"
+
+            ), fileConn)
+          close(fileConn)
+
+
+          fileConn<-file("RepeatMasker.sh")
+          writeLines(
+            c("cd tempforpipeline/",
+              paste("singularity overlay create -s 10000 temp.img"),
+              paste("singularity exec --overlay temp.img ../Perceptivev0.1.sif RepeatMasker input.fasta --xsmall -species",cladeout, "-pa",nprocout)
+
+
+            ), fileConn)
+          close(fileConn)
+
+          fileConn<-file("braker.sh")
+          writeLines(
+
+            c("cd tempforpipeline/",
+              paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
+            , fileConn)
+          close(fileConn)
+
+
+          fileConn<-file("interpro.sh")
+          writeLines(
+            c(
+              "cd tempforpipeline/",
+              "mkdir interpro",
+              "cp braker/braker.aa interpro/",
+              "cd interpro/",
+              paste("sed", '"s/\\*//g"', "< braker.aa > braker.peptide"),
+              "rm braker.aa",
+              paste("singularity exec --overlay ../temp.img ../../Perceptivev0.1.sif interproscan.sh -i braker.peptide -cpu", nprocout, "-dp --goterms -appl AntiFam-7.0,CDD-3.20,Coils-2.2.1,FunFam-4.3.0,Gene3D-4.3.0,Hamap-2023_05,NCBIfam-15.0,PANTHER-19.0,Pfam-37.0,PIRSF-3.10,PIRSR-2023_05,PRINTS-42.0,ProSitePatterns-2023_05,ProSiteProfiles-2023_05,SFLD-4,SMART-9.0,SUPERFAMILY-1.75"),
+              "rm -r temp/",
+              "rm ../temp.img"
+
+            ), fileConn)
+          close(fileConn)
+
+          fileConn<-file("blasting.sh")
+          writeLines(
+            c("cd tempforpipeline/interpro",
+              paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+              "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+              "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+              "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+              "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+              paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+              paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+            ), fileConn)
+          close(fileConn)
+
+          fileConn<-file("parsing.sh")
+          writeLines(
+            c("cd tempforpipeline/interpro",
+              "cut -f2 blastbpstricteval.table >blastpstrictevalgenes.txt",
+              "for line in $(cat blastpstrictevalgenes.txt); do grep -w $line ../../../temp.faa >> Speciesandprotein.txt; done",
+              paste("grep", '"IPR002119"', "braker.peptide.tsv | cut -f1 | sort -u > H2A.txt"),
+              paste("grep", '"IPR000558"', "braker.peptide.tsv | cut -f1 | sort -u > H2B.txt"),
+              paste("grep", '"IPR000164"', "braker.peptide.tsv | cut -f1 | sort -u > H3.txt"),
+              paste("grep", '"IPR001951"', "braker.peptide.tsv | cut -f1 | sort -u > H4.txt"),
+              paste("grep", '"IPR005819"', "braker.peptide.tsv | cut -f1 | sort -u > H1.txt"),
+              "grep -w -A 2 -f H1.txt  braker.peptide --no-group-separator > H1",
+              "grep -w -A 2 -f H3.txt  braker.peptide --no-group-separator > H3",
+              "grep -w -A 2 -f H4.txt  braker.peptide --no-group-separator > H4",
+              "grep -w -A 2 -f H2A.txt  braker.peptide --no-group-separator > H2A",
+              "grep -w -A 2 -f H2B.txt  braker.peptide --no-group-separator > H2B",
+              "rm H1.txt H2A.txt H2B.txt H3.txt H4.txt",
+              "mv braker.peptide.gff3 Interpro_annotation.gff3",
+              "mv braker.peptide.json Interpro_annotation.json",
+              "mv braker.peptide.tsv Interpro_annotation.tsv",
+              "mv braker.peptide.xml Interpro_annotation.xml",
+              "mkdir FilesforGUI",
+              "mv Speciesandprotein.txt FilesforGUI/",
+              "mv blastbpstricteval.table FilesforGUI/",
+              "mv InterproIdentified.txt FilesforGUI/",
+              "cp ../../../ListofINTERPRONUMBERS.csv FilesforGUI/",
+              "mv H1 H2A H2B H3 H4 FilesforGUI/",
+              "cp ../../../humanhistones.csv FilesforGUI/",
+              "cp ../../../Interprofunctions.csv FilesforGUI/",
+              "cp ../../../scerhistones.csv FilesforGUI/",
+              "cp ../../../associationTable.csv FilesforGUI/",
+              "mv FilesforGUI/ ../",
+              "cd ../"
+
+            ), fileConn)
+          close(fileConn)
+
+
+          system("chmod +x *.sh")
+          withProgress(message = "Annotation in progress, be patient", value=0, detail="0%: Running Velvet",
+                       {
+                         system("./Velvet.sh")
+                         incProgress(0.05,detail = paste0("5%: Running RepeatMasker"))
+                         system("./RepeatMasker.sh")
+                         incProgress(0.15,detail = paste0("15%: Running BRAKER3 Pipeline"))
+                         system("./braker.sh")
+                         incProgress(0.55,detail = paste0("55%: Running Interproscan"))
+                         system("./interpro.sh")
+                         incProgress(0.80,detail = paste0("80%: Running BLAST+"))
+                         system("./blasting.sh")
+                         incProgress(0.90,detail = paste0("90%: Parsing Outputs"))
+                         setwd("tempforpipeline/interpro")
+                         blast<-read.table("nocommentedlines.txt", sep="\t", header=FALSE)
+                         limited<-blast[which(blast[,11]<=evalout),]
+                         write.table(limited, "blastbpstricteval.table", sep="\t", row.names=FALSE, col.names= FALSE, quote=FALSE)
+                         setwd("../../")
+                         system("./parsing.sh")
+                         incProgress(0.99,detail = paste0("99%: Moving Files To Final Location"))
+                         system(paste("mv tempforpipeline",paste0(finallocation,"/",speciesout)))
+                         incProgress(1,detail = paste0("100%"))
+                       })
+        }}
+        }else if(novode=="Yes" && RNAeval=="Yes")
+        {
+          datalocationout<<- as.character(parseFilePaths(roots = volumes, input$fastq)[4])
+          R1<<-as.character(parseFilePaths(roots = volumes, input$fastqR1RNA)[4])
+          R2<<-as.character(parseFilePaths(roots = volumes, input$fastqR2RNA)[4])
+          short<<-input$length
+          if(short=="Long")
+          {
+            technology<<-input$tech
+            gsize<<-input$genomesize
+            if (speciesout=="" || datalocationout=="" || cladeout=="" || nprocout=="" || evalout=="" || length(finallocation)==0 || technology=="" || gsize=="")
+            {
+              showModal(modalDialog(
+                title = "WARNING",
+                paste0("All selections not completed"),
+                easyClose = TRUE,
+                footer = NULL
+              ))
+
+            }else{
+              if(technology=="Nanopore")
+              {tnolog<<-"-nanopore-raw"
+              }else if (technology=="Pacbio")
+              {
+                tnolog<<-"-pacbio"
+              }else if (technology=="Pacbio HiFi")
+              {tnolog<<-"-pacbio-hifi"}
+              fileConn<-file("Canu.sh")
+              writeLines(
+                c("mkdir tempforpipeline",
+                  "cd tempforpipeline/",
+                  paste("cp",noquote(datalocationout),  "input.fastq"),
+                  paste0("singularity exec ../Perceptivev0.1.sif canu -d assembly -p assembled genomesize=",gsize, " ", tnolog, " input.fastq"),
+                  "cp assembly/assembled.contig.fasta input.fasta"
+
+                ), fileConn)
+              close(fileConn)
+
+
+              fileConn<-file("RepeatMasker.sh")
+              writeLines(
+                c("cd tempforpipeline/",
+                  paste("singularity overlay create -s 10000 temp.img"),
+                  paste("singularity exec --overlay temp.img ../Perceptivev0.1.sif RepeatMasker input.fasta --xsmall -species",cladeout, "-pa",nprocout)
+
+
+                ), fileConn)
+              close(fileConn)
+
+              fileConn<-file("braker.sh")
+              writeLines(
+
+                c("cd tempforpipeline/",
+                  paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
+                , fileConn)
+              close(fileConn)
+
+
+              fileConn<-file("interpro.sh")
+              writeLines(
+                c(
+                  "cd tempforpipeline/",
+                  "mkdir interpro",
+                  "cp braker/braker.aa interpro/",
+                  "cd interpro/",
+                  paste("sed", '"s/\\*//g"', "< braker.aa > braker.peptide"),
+                  "rm braker.aa",
+                  paste("singularity exec --overlay ../temp.img ../../Perceptivev0.1.sif interproscan.sh -i braker.peptide -cpu", nprocout, "-dp --goterms -appl AntiFam-7.0,CDD-3.20,Coils-2.2.1,FunFam-4.3.0,Gene3D-4.3.0,Hamap-2023_05,NCBIfam-15.0,PANTHER-19.0,Pfam-37.0,PIRSF-3.10,PIRSR-2023_05,PRINTS-42.0,ProSitePatterns-2023_05,ProSiteProfiles-2023_05,SFLD-4,SMART-9.0,SUPERFAMILY-1.75"),
+                  "rm -r temp/",
+                  "rm ../temp.img"
+
+                ), fileConn)
+              close(fileConn)
+
+              fileConn<-file("blasting.sh")
+              writeLines(
+                c("cd tempforpipeline/interpro",
+                  paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                  "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                  "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                  "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                  "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                  paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+                  paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+                ), fileConn)
+              close(fileConn)
+
+              fileConn<-file("parsing.sh")
+              writeLines(
+                c("cd tempforpipeline/interpro",
+                  "cut -f2 blastbpstricteval.table >blastpstrictevalgenes.txt",
+                  "for line in $(cat blastpstrictevalgenes.txt); do grep -w $line ../../../temp.faa >> Speciesandprotein.txt; done",
+                  paste("grep", '"IPR002119"', "braker.peptide.tsv | cut -f1 | sort -u > H2A.txt"),
+                  paste("grep", '"IPR000558"', "braker.peptide.tsv | cut -f1 | sort -u > H2B.txt"),
+                  paste("grep", '"IPR000164"', "braker.peptide.tsv | cut -f1 | sort -u > H3.txt"),
+                  paste("grep", '"IPR001951"', "braker.peptide.tsv | cut -f1 | sort -u > H4.txt"),
+                  paste("grep", '"IPR005819"', "braker.peptide.tsv | cut -f1 | sort -u > H1.txt"),
+                  "grep -w -A 2 -f H1.txt  braker.peptide --no-group-separator > H1",
+                  "grep -w -A 2 -f H3.txt  braker.peptide --no-group-separator > H3",
+                  "grep -w -A 2 -f H4.txt  braker.peptide --no-group-separator > H4",
+                  "grep -w -A 2 -f H2A.txt  braker.peptide --no-group-separator > H2A",
+                  "grep -w -A 2 -f H2B.txt  braker.peptide --no-group-separator > H2B",
+                  "rm H1.txt H2A.txt H2B.txt H3.txt H4.txt",
+                  "mv braker.peptide.gff3 Interpro_annotation.gff3",
+                  "mv braker.peptide.json Interpro_annotation.json",
+                  "mv braker.peptide.tsv Interpro_annotation.tsv",
+                  "mv braker.peptide.xml Interpro_annotation.xml",
+                  "mkdir FilesforGUI",
+                  "mv Speciesandprotein.txt FilesforGUI/",
+                  "mv blastbpstricteval.table FilesforGUI/",
+                  "mv InterproIdentified.txt FilesforGUI/",
+                  "cp ../../../ListofINTERPRONUMBERS.csv FilesforGUI/",
+                  "mv H1 H2A H2B H3 H4 FilesforGUI/",
+                  "cp ../../../humanhistones.csv FilesforGUI/",
+                  "cp ../../../Interprofunctions.csv FilesforGUI/",
+                  "cp ../../../scerhistones.csv FilesforGUI/",
+                  "cp ../../../associationTable.csv FilesforGUI/",
+                  "mv FilesforGUI/ ../",
+                  "cd ../"
+
+                ), fileConn)
+              close(fileConn)
+
+
+              system("chmod +x *.sh")
+              withProgress(message = "Annotation in progress, be patient", value=0, detail="0%: Running Canu",
+                           {
+                             system("./Canu.sh")
+                             incProgress(0.05,detail = paste0("5%: Running RepeatMasker"))
+                             system("./RepeatMasker.sh")
+                             incProgress(0.05,detail = paste0("5%: Running BRAKER3 Pipeline"))
+                             if(R2=="")
+                             {
+                               system(paste("cp", R1, "ID1.fastq"))
+                             }else
+                             {
+                               system(paste("cp", R1, "ID1_1.fastq"))
+                               system(paste("cp", R2, "ID1_2.fastq"))
+                             }
+                             system("./braker.sh")
+                             incProgress(0.55,detail = paste0("55%: Running Interproscan"))
+                             system("./interpro.sh")
+                             incProgress(0.80,detail = paste0("80%: Running BLAST+"))
+                             system("./blasting.sh")
+                             incProgress(0.90,detail = paste0("90%: Parsing Outputs"))
+                             setwd("tempforpipeline/interpro")
+                             blast<-read.table("nocommentedlines.txt", sep="\t", header=FALSE)
+                             limited<-blast[which(blast[,11]<=evalout),]
+                             write.table(limited, "blastbpstricteval.table", sep="\t", row.names=FALSE, col.names= FALSE, quote=FALSE)
+                             setwd("../../")
+                             system("./parsing.sh")
+                             incProgress(0.99,detail = paste0("99%: Moving Files To Final Location"))
+                             system(paste("mv tempforpipeline",paste0(finallocation,"/",speciesout)))
+                             incProgress(1,detail = paste0("100%"))
+                           })
+            }
+
+          }else(short=="short")
+          {        if (speciesout=="" || datalocationout=="" || cladeout=="" || nprocout=="" || evalout=="" || length(finallocation)==0)
+          {
+            showModal(modalDialog(
+              title = "WARNING",
+              paste0("All selections not completed"),
+              easyClose = TRUE,
+              footer = NULL
+            ))
+
+          }else{
+
+            fileConn<-file("Velvet.sh")
+            writeLines(
+              c("mkdir tempforpipeline",
+                "cd tempforpipeline/",
+                "mkdir Velvet",
+                "cd Velvet/",
+                paste("cp",noquote(datalocationout),  "input.fastq"),
+                paste("singularity exec ../../Perceptivev0.1.sif velveth assembly 31 -fastq input.fastq"),
+                paste("singularity exec ../../Perceptivev0.1.sif velvetg assembly -exp_cov auto -cov_cutoff auto"),
+                "cp assembly/contigs.fa ../input.fasta",
+                "cd ../"
+
+              ), fileConn)
+            close(fileConn)
+
+
+            fileConn<-file("RepeatMasker.sh")
+            writeLines(
+              c("cd tempforpipeline/",
+                paste("singularity overlay create -s 10000 temp.img"),
+                paste("singularity exec --overlay temp.img ../Perceptivev0.1.sif RepeatMasker input.fasta --xsmall -species",cladeout, "-pa",nprocout)
+
+
+              ), fileConn)
+            close(fileConn)
+
+            fileConn<-file("braker.sh")
+            writeLines(
+
+              c("cd tempforpipeline/",
+                paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
+              , fileConn)
+            close(fileConn)
+
+
+            fileConn<-file("interpro.sh")
+            writeLines(
+              c(
+                "cd tempforpipeline/",
+                "mkdir interpro",
+                "cp braker/braker.aa interpro/",
+                "cd interpro/",
+                paste("sed", '"s/\\*//g"', "< braker.aa > braker.peptide"),
+                "rm braker.aa",
+                paste("singularity exec --overlay ../temp.img ../../Perceptivev0.1.sif interproscan.sh -i braker.peptide -cpu", nprocout, "-dp --goterms -appl AntiFam-7.0,CDD-3.20,Coils-2.2.1,FunFam-4.3.0,Gene3D-4.3.0,Hamap-2023_05,NCBIfam-15.0,PANTHER-19.0,Pfam-37.0,PIRSF-3.10,PIRSR-2023_05,PRINTS-42.0,ProSitePatterns-2023_05,ProSiteProfiles-2023_05,SFLD-4,SMART-9.0,SUPERFAMILY-1.75"),
+                "rm -r temp/",
+                "rm ../temp.img"
+
+              ), fileConn)
+            close(fileConn)
+
+            fileConn<-file("blasting.sh")
+            writeLines(
+              c("cd tempforpipeline/interpro",
+                paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+                paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+              ), fileConn)
+            close(fileConn)
+
+            fileConn<-file("parsing.sh")
+            writeLines(
+              c("cd tempforpipeline/interpro",
+                "cut -f2 blastbpstricteval.table >blastpstrictevalgenes.txt",
                 "for line in $(cat blastpstrictevalgenes.txt); do grep -w $line ../../../temp.faa >> Speciesandprotein.txt; done",
                 paste("grep", '"IPR002119"', "braker.peptide.tsv | cut -f1 | sort -u > H2A.txt"),
                 paste("grep", '"IPR000558"', "braker.peptide.tsv | cut -f1 | sort -u > H2B.txt"),
@@ -280,32 +737,309 @@ if(is.na(defaults[1,1]))
                 "mv FilesforGUI/ ../",
                 "cd ../"
 
-        ), fileConn)
-      close(fileConn)
+              ), fileConn)
+            close(fileConn)
 
 
-      system("chmod +x *.sh")
-      withProgress(message = "Annotation in progress, be patient", value=0, detail="0%: Running RepeatMasker",
-    {
-      system("./RepeatMasker.sh")
-      incProgress(0.05,detail = paste0("5%: Running BRAKER3 Pipeline"))
-      system("./braker.sh")
-      incProgress(0.55,detail = paste0("55%: Running Interproscan"))
-      system("./interpro.sh")
-      incProgress(0.80,detail = paste0("80%: Running BLAST+"))
-      system("./blasting.sh")
-      incProgress(0.90,detail = paste0("90%: Parsing Outputs"))
-      setwd("tempforpipeline/interpro")
-      blast<-read.table("nocommentedlines.txt", sep="\t", header=FALSE)
-      limited<-blast[which(blast[,11]<=evalout),]
-      write.table(limited, "blastbpstricteval.table", sep="\t", row.names=FALSE, col.names= FALSE, quote=FALSE)
-      setwd("../../")
-      system("./parsing.sh")
-      incProgress(0.99,detail = paste0("99%: Moving Files To Final Location"))
-      system(paste("mv tempforpipeline",paste0(finallocation,"/",speciesout)))
-      incProgress(1,detail = paste0("100%"))
-    })
-      }
+            system("chmod +x *.sh")
+            withProgress(message = "Annotation in progress, be patient", value=0, detail="0%: Running Velvet",
+                         {
+                           system("./Velvet.sh")
+                           incProgress(0.05,detail = paste0("5%: Running RepeatMasker"))
+                           system("./RepeatMasker.sh")
+                           incProgress(0.05,detail = paste0("5%: Running BRAKER3 Pipeline"))
+                           if(R2=="")
+                           {
+                             system(paste("cp", R1, "ID1.fastq"))
+                           }else
+                           {
+                             system(paste("cp", R1, "ID1_1.fastq"))
+                             system(paste("cp", R2, "ID1_2.fastq"))
+                           }
+                           system("./braker.sh")
+                           incProgress(0.15,detail = paste0("15%: Running BRAKER3 Pipeline"))
+                           system("./braker.sh")
+                           incProgress(0.55,detail = paste0("55%: Running Interproscan"))
+                           system("./interpro.sh")
+                           incProgress(0.80,detail = paste0("80%: Running BLAST+"))
+                           system("./blasting.sh")
+                           incProgress(0.90,detail = paste0("90%: Parsing Outputs"))
+                           setwd("tempforpipeline/interpro")
+                           blast<-read.table("nocommentedlines.txt", sep="\t", header=FALSE)
+                           limited<-blast[which(blast[,11]<=evalout),]
+                           write.table(limited, "blastbpstricteval.table", sep="\t", row.names=FALSE, col.names= FALSE, quote=FALSE)
+                           setwd("../../")
+                           system("./parsing.sh")
+                           incProgress(0.99,detail = paste0("99%: Moving Files To Final Location"))
+                           system(paste("mv tempforpipeline",paste0(finallocation,"/",speciesout)))
+                           incProgress(1,detail = paste0("100%"))
+                         })
+          }}
+        }else if (novode=="No" && RNAeval=="Yes")
+        {
+        datalocationout<<- as.character(parseFilePaths(roots = volumes, input$fasta)[4])
+        R1<<-as.character(parseFilePaths(roots = volumes, input$fastqR1RNA)[4])
+        R2<<-as.character(parseFilePaths(roots = volumes, input$fastqR2RNA)[4])
+        if (speciesout=="" || datalocationout=="" || cladeout=="" || nprocout=="" || evalout=="" || length(finallocation)==0 || R1=="")
+        {
+          showModal(modalDialog(
+            title = "WARNING",
+            paste0("All selections not completed"),
+            easyClose = TRUE,
+            footer = NULL
+          ))
+
+        }else{
+          fileConn<-file("RepeatMasker.sh")
+          writeLines(
+            c("mkdir tempforpipeline",
+              "cd tempforpipeline/",
+              paste("cp",noquote(datalocationout),  "input.fasta"),
+              paste("singularity overlay create -s 10000 temp.img"),
+              paste("singularity exec --overlay temp.img ../Perceptivev0.1.sif RepeatMasker input.fasta --xsmall -species",cladeout, "-pa",nprocout)
+
+
+            ), fileConn)
+          close(fileConn)
+
+
+
+          fileConn<-file("braker.sh")
+          writeLines(
+
+            c("cd tempforpipeline/",
+              paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
+            , fileConn)
+          close(fileConn)
+
+
+          fileConn<-file("interpro.sh")
+          writeLines(
+            c(
+              "cd tempforpipeline/",
+              "mkdir interpro",
+              "cp braker/braker.aa interpro/",
+              "cd interpro/",
+              paste("sed", '"s/\\*//g"', "< braker.aa > braker.peptide"),
+              "rm braker.aa",
+              paste("singularity exec --overlay ../temp.img ../../Perceptivev0.1.sif interproscan.sh -i braker.peptide -cpu", nprocout, "-dp --goterms -appl AntiFam-7.0,CDD-3.20,Coils-2.2.1,FunFam-4.3.0,Gene3D-4.3.0,Hamap-2023_05,NCBIfam-15.0,PANTHER-19.0,Pfam-37.0,PIRSF-3.10,PIRSR-2023_05,PRINTS-42.0,ProSitePatterns-2023_05,ProSiteProfiles-2023_05,SFLD-4,SMART-9.0,SUPERFAMILY-1.75"),
+              "rm -r temp/",
+              "rm ../temp.img"
+
+            ), fileConn)
+          close(fileConn)
+
+          fileConn<-file("blasting.sh")
+          writeLines(
+            c("cd tempforpipeline/interpro",
+              paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+              "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+              "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+              "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+              "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+              paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+              paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+            ), fileConn)
+          close(fileConn)
+
+          fileConn<-file("parsing.sh")
+          writeLines(
+            c("cd tempforpipeline/interpro",
+              "cut -f2 blastbpstricteval.table >blastpstrictevalgenes.txt",
+              "for line in $(cat blastpstrictevalgenes.txt); do grep -w $line ../../../temp.faa >> Speciesandprotein.txt; done",
+              paste("grep", '"IPR002119"', "braker.peptide.tsv | cut -f1 | sort -u > H2A.txt"),
+              paste("grep", '"IPR000558"', "braker.peptide.tsv | cut -f1 | sort -u > H2B.txt"),
+              paste("grep", '"IPR000164"', "braker.peptide.tsv | cut -f1 | sort -u > H3.txt"),
+              paste("grep", '"IPR001951"', "braker.peptide.tsv | cut -f1 | sort -u > H4.txt"),
+              paste("grep", '"IPR005819"', "braker.peptide.tsv | cut -f1 | sort -u > H1.txt"),
+              "grep -w -A 2 -f H1.txt  braker.peptide --no-group-separator > H1",
+              "grep -w -A 2 -f H3.txt  braker.peptide --no-group-separator > H3",
+              "grep -w -A 2 -f H4.txt  braker.peptide --no-group-separator > H4",
+              "grep -w -A 2 -f H2A.txt  braker.peptide --no-group-separator > H2A",
+              "grep -w -A 2 -f H2B.txt  braker.peptide --no-group-separator > H2B",
+              "rm H1.txt H2A.txt H2B.txt H3.txt H4.txt",
+              "mv braker.peptide.gff3 Interpro_annotation.gff3",
+              "mv braker.peptide.json Interpro_annotation.json",
+              "mv braker.peptide.tsv Interpro_annotation.tsv",
+              "mv braker.peptide.xml Interpro_annotation.xml",
+              "mkdir FilesforGUI",
+              "mv Speciesandprotein.txt FilesforGUI/",
+              "mv blastbpstricteval.table FilesforGUI/",
+              "mv InterproIdentified.txt FilesforGUI/",
+              "cp ../../../ListofINTERPRONUMBERS.csv FilesforGUI/",
+              "mv H1 H2A H2B H3 H4 FilesforGUI/",
+              "cp ../../../humanhistones.csv FilesforGUI/",
+              "cp ../../../Interprofunctions.csv FilesforGUI/",
+              "cp ../../../scerhistones.csv FilesforGUI/",
+              "cp ../../../associationTable.csv FilesforGUI/",
+              "mv FilesforGUI/ ../",
+              "cd ../"
+
+            ), fileConn)
+          close(fileConn)
+
+
+          system("chmod +x *.sh")
+          withProgress(message = "Annotation in progress, be patient", value=0, detail="0%: Running RepeatMasker",
+                       {
+                         system("./RepeatMasker.sh")
+                         incProgress(0.05,detail = paste0("5%: Running BRAKER3 Pipeline"))
+                         if(R2=="")
+                         {
+                           system(paste("cp", R1, "ID1.fastq"))
+                         }else
+                         {
+                           system(paste("cp", R1, "ID1_1.fastq"))
+                           system(paste("cp", R2, "ID1_2.fastq"))
+                         }
+                         system("./braker.sh")
+                         system(paste("rm *.fastq"))
+                         incProgress(0.55,detail = paste0("55%: Running Interproscan"))
+                         system("./interpro.sh")
+                         incProgress(0.80,detail = paste0("80%: Running BLAST+"))
+                         system("./blasting.sh")
+                         incProgress(0.90,detail = paste0("90%: Parsing Outputs"))
+                         setwd("tempforpipeline/interpro")
+                         blast<-read.table("nocommentedlines.txt", sep="\t", header=FALSE)
+                         limited<-blast[which(blast[,11]<=evalout),]
+                         write.table(limited, "blastbpstricteval.table", sep="\t", row.names=FALSE, col.names= FALSE, quote=FALSE)
+                         setwd("../../")
+                         system("./parsing.sh")
+                         incProgress(0.99,detail = paste0("99%: Moving Files To Final Location"))
+                         system(paste("mv tempforpipeline",paste0(finallocation,"/",speciesout)))
+                         incProgress(1,detail = paste0("100%"))
+                       })
+        }
+        }else if (novode=="No" && RNAeval=="No")
+        {
+        datalocationout<<- as.character(parseFilePaths(roots = volumes, input$fasta)[4])
+        if (speciesout=="" || datalocationout=="" || cladeout=="" || nprocout=="" || evalout=="" || length(finallocation)==0)
+        {
+          showModal(modalDialog(
+            title = "WARNING",
+            paste0("All selections not completed"),
+            easyClose = TRUE,
+            footer = NULL
+          ))
+
+        }else{
+          fileConn<-file("RepeatMasker.sh")
+          writeLines(
+            c("mkdir tempforpipeline",
+              "cd tempforpipeline/",
+              paste("cp",noquote(datalocationout),  "input.fasta"),
+              paste("singularity overlay create -s 10000 temp.img"),
+              paste("singularity exec --overlay temp.img ../Perceptivev0.1.sif RepeatMasker input.fasta --xsmall -species",cladeout, "-pa",nprocout)
+
+
+            ), fileConn)
+          close(fileConn)
+
+          fileConn<-file("braker.sh")
+          writeLines(
+
+            c("cd tempforpipeline/",
+              paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
+            , fileConn)
+          close(fileConn)
+
+
+          fileConn<-file("interpro.sh")
+          writeLines(
+            c(
+              "cd tempforpipeline/",
+              "mkdir interpro",
+              "cp braker/braker.aa interpro/",
+              "cd interpro/",
+              paste("sed", '"s/\\*//g"', "< braker.aa > braker.peptide"),
+              "rm braker.aa",
+              paste("singularity exec --overlay ../temp.img ../../Perceptivev0.1.sif interproscan.sh -i braker.peptide -cpu", nprocout, "-dp --goterms -appl AntiFam-7.0,CDD-3.20,Coils-2.2.1,FunFam-4.3.0,Gene3D-4.3.0,Hamap-2023_05,NCBIfam-15.0,PANTHER-19.0,Pfam-37.0,PIRSF-3.10,PIRSR-2023_05,PRINTS-42.0,ProSitePatterns-2023_05,ProSiteProfiles-2023_05,SFLD-4,SMART-9.0,SUPERFAMILY-1.75"),
+              "rm -r temp/",
+              "rm ../temp.img"
+
+            ), fileConn)
+          close(fileConn)
+
+          fileConn<-file("blasting.sh")
+          writeLines(
+            c("cd tempforpipeline/interpro",
+              paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+              "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+              "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+              "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+              "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+              paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+              paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+            ), fileConn)
+          close(fileConn)
+
+          fileConn<-file("parsing.sh")
+          writeLines(
+            c("cd tempforpipeline/interpro",
+              "cut -f2 blastbpstricteval.table >blastpstrictevalgenes.txt",
+              "for line in $(cat blastpstrictevalgenes.txt); do grep -w $line ../../../temp.faa >> Speciesandprotein.txt; done",
+              paste("grep", '"IPR002119"', "braker.peptide.tsv | cut -f1 | sort -u > H2A.txt"),
+              paste("grep", '"IPR000558"', "braker.peptide.tsv | cut -f1 | sort -u > H2B.txt"),
+              paste("grep", '"IPR000164"', "braker.peptide.tsv | cut -f1 | sort -u > H3.txt"),
+              paste("grep", '"IPR001951"', "braker.peptide.tsv | cut -f1 | sort -u > H4.txt"),
+              paste("grep", '"IPR005819"', "braker.peptide.tsv | cut -f1 | sort -u > H1.txt"),
+              "grep -w -A 2 -f H1.txt  braker.peptide --no-group-separator > H1",
+              "grep -w -A 2 -f H3.txt  braker.peptide --no-group-separator > H3",
+              "grep -w -A 2 -f H4.txt  braker.peptide --no-group-separator > H4",
+              "grep -w -A 2 -f H2A.txt  braker.peptide --no-group-separator > H2A",
+              "grep -w -A 2 -f H2B.txt  braker.peptide --no-group-separator > H2B",
+              "rm H1.txt H2A.txt H2B.txt H3.txt H4.txt",
+              "mv braker.peptide.gff3 Interpro_annotation.gff3",
+              "mv braker.peptide.json Interpro_annotation.json",
+              "mv braker.peptide.tsv Interpro_annotation.tsv",
+              "mv braker.peptide.xml Interpro_annotation.xml",
+              "mkdir FilesforGUI",
+              "mv Speciesandprotein.txt FilesforGUI/",
+              "mv blastbpstricteval.table FilesforGUI/",
+              "mv InterproIdentified.txt FilesforGUI/",
+              "cp ../../../ListofINTERPRONUMBERS.csv FilesforGUI/",
+              "mv H1 H2A H2B H3 H4 FilesforGUI/",
+              "cp ../../../humanhistones.csv FilesforGUI/",
+              "cp ../../../Interprofunctions.csv FilesforGUI/",
+              "cp ../../../scerhistones.csv FilesforGUI/",
+              "cp ../../../associationTable.csv FilesforGUI/",
+              "mv FilesforGUI/ ../",
+              "cd ../"
+
+            ), fileConn)
+          close(fileConn)
+
+
+          system("chmod +x *.sh")
+          withProgress(message = "Annotation in progress, be patient", value=0, detail="0%: Running RepeatMasker",
+                       {
+                         system("./RepeatMasker.sh")
+                         incProgress(0.05,detail = paste0("5%: Running BRAKER3 Pipeline"))
+                         system("./braker.sh")
+                         incProgress(0.55,detail = paste0("55%: Running Interproscan"))
+                         system("./interpro.sh")
+                         incProgress(0.80,detail = paste0("80%: Running BLAST+"))
+                         system("./blasting.sh")
+                         incProgress(0.90,detail = paste0("90%: Parsing Outputs"))
+                         setwd("tempforpipeline/interpro")
+                         blast<-read.table("nocommentedlines.txt", sep="\t", header=FALSE)
+                         limited<-blast[which(blast[,11]<=evalout),]
+                         write.table(limited, "blastbpstricteval.table", sep="\t", row.names=FALSE, col.names= FALSE, quote=FALSE)
+                         setwd("../../")
+                         system("./parsing.sh")
+                         incProgress(0.99,detail = paste0("99%: Moving Files To Final Location"))
+                         system(paste("mv tempforpipeline",paste0(finallocation,"/",speciesout)))
+                         incProgress(1,detail = paste0("100%"))
+                       })
+        }
+        }
+
+
+
+
+
 
     })
 
@@ -353,25 +1087,48 @@ if(is.na(defaults[1,1]))
                                   textInput("speciesname", "Species name:", value = "", width = NULL, placeholder = NULL),
                                   div( h5(HTML("<b>Do you want to perform <i> de novo </i> genome assembly (not recommended)? </b>"))),
                                   radioButtons(
-                                    "denovo", "Select an option", c("Yes", "No"), inline = TRUE, selected=character(0)
+                                    "denovo", "Select an option", c("Yes", "No"), inline = TRUE, selected="No"
                                   ),
                                   htmlOutput("needapath", placeholder = TRUE),
                                   conditionalPanel(condition="input.denovo == 'No'", suppressWarnings (shinyFilesButton('fasta', 'Select FASTA' , 'Select pathway to fasta:', multiple = FALSE,
                                                  buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder")))),
-                                  conditionalPanel(condition="input.denovo == 'Yes'", suppressWarnings (shinyFilesButton('fastq', 'Select FASTQ/BAM' , 'Select pathway to fastq/bam:', multiple = FALSE,
+                                  conditionalPanel(condition="input.denovo == 'Yes'",
+                                                   div( h5(HTML("<b>Expected file is unzipped fastq from Nanopore or Pacbio sequencer. PERCEPTIVE will not use gzipped fastq. </b>"))),
+                                                   suppressWarnings (shinyFilesButton('fastq', 'Select FASTQ' , 'Select pathway to fastq:', multiple = FALSE,
                                                                                                     buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
                                                    div( h5(HTML("<b>Are your raw reads long (ONT etc.) or short (Illumina etc.)? </b>"))),
                                                    radioButtons(
                                                      "length", "Select an option", c("Long", "Short"), inline = TRUE
-                                                   )),
+                                                   ),
+                                                   conditionalPanel(condition = "input.length =='Short'",),
+                                                   conditionalPanel(condition = "input.length =='Long'",
+                                                                    radioButtons(
+                                                                      "tech", "Select a long read technology", c("Nanopore", "Pacbio", "Pacbio HiFi"), inline = TRUE
+                                                                    ),
+                                                                    div( h5(HTML("<b>What is the estimated size of your genome in bases? Use jellyfish or GenomeSource for estimates, or the size of a closely related genome. </b>"))),
+                                                                    textInput("genomesize", "Genome Size:", value = "", width = NULL, placeholder = NULL)
+                                                   ),
+                                                   ),
 
-                                  div( h5(HTML("<b>Name a well studied species that is within the same clade or that is related to this organism. </b> </br>For example, arabadopsis, cerevisae, chlamydomonas, human, or mouse. RepeatMasker will use this input to mask repeat sequences which might cause downstream spurious annotation.</b>"))),
+                                  div( h5(HTML("<b>Do you want to use short read total RNA-seq data for gene predictions? </b>"))),
+                                  radioButtons(
+                                    "RNA", "Select an option", c("Yes", "No"), inline = TRUE, selected="No"
+                                  ),
+                                  conditionalPanel(condition = "input.RNA =='No'",),
+                                  conditionalPanel(condition="input.RNA == 'Yes'",
+                                                   div( h5(HTML("<b>If RNA-seq sequencing was paired please select a path for both Read 1 and Read 2 (R1/R2) otherwise only select a path for R1. PERCEPTIVE will not use gzipped fastq!</b>"))),
+                                                                                   suppressWarnings (shinyFilesButton('fastqR1RNA', 'Select pathway to unaligned RNA FASTQ Read 1' , 'Select pathway to unaligned RNA fastq Read 1:', multiple = FALSE,
+                                                                                   buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
+                                                                                   suppressWarnings (shinyFilesButton('fastqR2RNA', 'Select pathway to unaligned RNA FASTQ Read 2' , 'Select pathway to unaligned RNA fastq Read 2:', multiple = FALSE,
+                                                                                   buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder")))),
+
+                                  div( h5(HTML("<b>Name a well studied species that is within the same clade or that is related to this organism. </b> </br>For example, arabadopsis, cerevisae, chlamydomonas, human, or mouse. RepeatMasker will use this input to mask repeat sequences which might cause downstream spurious annotation. </b>"))),
                                   textInput("clade", "Clade:", value = "", width = NULL, placeholder = NULL),
 
                                   div( h6(HTML(" </br>Note: Interspursed repeats are mostly transposable elements in different states of erosion.
 Thus, depending on evolutionary divergence since the origination of a transposable element, interspersed repeats are generally conserved in a clade of species.
 
-</br> In principal, all unique clade names occurring in this database (http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html) can be used. Additional rules and examples: all inputs longer than one word must be in quotes. Input can range in specificity, for example <i> 'C. reinhardtii'</i>, chimpanzee, fungi, canidae, mammals, etc. Picking a more specific option is prefered. "))),
+</br> In principal, all unique clade names occurring in this database (http://www.ncbi.nlm.nih.gov/Taxonomy/taxonomyhome.html) can be used. Additional rules and examples: all inputs longer than one word must be in quotes. Input can range in specificity, for example <i> 'chlamydomonas reinhardtii'</i>, chimpanzee, fungi, canidae, mammals, etc. Picking a more specific option is prefered. "))),
 
                                   div( h5(HTML("</br> Please select an e-value cutoff for BLAST results. For example, 0.05 will result in a false discovery rate of 5%. Lower values will yield more stringent results, but 0.05 is recommended to start."))),
                                   textInput("eval", "e-value:", value = "0.05", width = NULL, placeholder = NULL),
