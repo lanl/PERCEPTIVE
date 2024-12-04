@@ -16,12 +16,12 @@ Follow these directions irrespective of which function you intend to use.
 Both the Pipeline and App functions require a current version of R to be installed, and the R devtools package to download and install PERCEPTIVE from github. 
 Here we recommend that users download and install Rstudio (which for some operating systems includes R), found [here](https://posit.co/download/rstudio-desktop/) for easier graphical interfacing, and R version 4.4 (Pile of Leaves). R version 4.4.x can be found for Windows OS [here](https://cran.r-project.org/bin/windows/base/), and Linux and OS X (Darwin) [here](https://cran.r-project.org/src/base/R-4/).
 ### R devtools
-Once you have installed R, start an R terminal using the R GUI or open RStudio (the terminal can be found at the bottom left corner). Run the following command:
+Once you have installed R, start an R console using the R GUI or open RStudio (the console can be found at the bottom left corner). Run the following command in the R console:
 ```
 install.packages("devtools")
 ```
 ### To install the PERCEPTIVE package
-Run the following command in the R terminal:
+Run the following command in the R console:
 ```
 devtools::install_github("https://github.com/lanl/PERCEPTIVE.git", dependencies = TRUE)
 ```
