@@ -100,6 +100,10 @@ Similar to mode three, this  mode requires input of either unassembled short or 
 ## COPYRIGHT
 This package relies on several dependencies and pipelines. The authors make no claim of ownership, copyright, or maintenance for any or all of these dependencies.
 
+## Test Data
+A folder including all files neccessary to test the PERCEPTIVE app function is included [here](https://drive.google.com/drive/folders/1nhPLN9m4bMLwtM_H0rF81UbEbCayKo1t?usp=drive_link) on gdrive for Nannochloropsis gaditana.
+To test the Pipeline function, it is suggested to run the Pipeline in mode one using the Nannochloropsis gaditana genome for CCMP 1894 [here](https://genome.jgi.doe.gov/portal/pages/accessDenied.jsf?state=%27anonDownload%27) from JGI. At a later date GEO or SRA accessions may be made available with RNA-seq data, long read data, and short read data for testing, but is not currently provided.
+
 DOE NNSA O# (O4768) 
 
 © 2024. Triad National Security, LLC. All rights reserved.
