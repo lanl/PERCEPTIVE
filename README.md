@@ -97,12 +97,14 @@ In this mode the input is an unmasked assembled genome and unaligned RNA-seq rea
 Similar to mode one, this mode solely requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assembly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size. We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. (Selections: Would you like to perform de novo genome assembly: yes, short(velvet) or long (canu), RNA-seq: no)
 #### Four: Genome assembly with RNA-seq
 Similar to mode three, this  mode requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assembly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size. We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. This mode additionally requires unaligned RNA-seq data from a total RNA library preparation, (see note above). (Selections: Would you like to perform de novo genome assembly: yes, short (velvet) or long (canu), RNA-seq: yes)
-## COPYRIGHT
-This package relies on several dependencies and pipelines. The authors make no claim of ownership, copyright, or maintenance for any or all of these dependencies.
+
 
 ## Test Data
 A folder including all files neccessary to test the PERCEPTIVE app function is included [here](https://drive.google.com/drive/folders/1nhPLN9m4bMLwtM_H0rF81UbEbCayKo1t?usp=drive_link) on gdrive for Nannochloropsis gaditana.
 To test the Pipeline function, it is suggested to run the Pipeline in mode one using the Nannochloropsis gaditana genome for CCMP 1894 [here](https://genome.jgi.doe.gov/portal/pages/accessDenied.jsf?state=%27anonDownload%27) from JGI. At a later date GEO or SRA accessions may be made available with RNA-seq data, long read data, and short read data for testing, but is not currently provided.
+
+## COPYRIGHT
+This package relies on several dependencies and pipelines. The authors make no claim of ownership, copyright, or maintenance for any or all of these dependencies.
 
 DOE NNSA O# (O4768) 
 
