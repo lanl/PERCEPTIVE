@@ -1389,10 +1389,10 @@ server <- function(input, output, session){
 observeEvent(input$example,
              {
              showModal(modalDialog(
-               title = "Example",
-               HTML('<img src="www/schema.jpg" />'),
-               easyClose = TRUE,
-               footer = NULL
+               title = img(
+                src=system.file("www/logo.png", package = "PERCEPTIVEv3"),
+                style="display:block; margin-left:auto; margin-right:auto;"
+               ),
              ))}
              )
 
