@@ -1389,7 +1389,9 @@ server <- function(input, output, session){
 observeEvent(input$example,
              {
                showModal(modalDialog(
-                 HTML('<img src="schema.jpg" alt="H3K4me3 Example Image">'),
+                 title = "Example",
+                 HTML('<img src="schema.jpg" alt="H3K4me3 Example Image"/>'),
+                 tags$img(src = "schema.jpg", width = "200px"),
                  easyClose = TRUE,
                  footer = NULL
              ))}
