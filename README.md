@@ -124,10 +124,13 @@ Finally, using makeblastdb from [blast+](https://blast.ncbi.nlm.nih.gov/doc/blas
 makeblastdb -in total.faa -title modelorgs -mask_data totalprot.asnb -dbtype prot -out modelorgsprot -parse_seqids
 ```
 
+#### Errors
+A 'common' error occurs when using GeneMark-ES with _poorly_ assembled genomes. In the case of numerous small contigs (<50kB) GeneMark will fail to run providing no gene predictions. PERCEPTIVE will attempt to salvage this by lowering the threshold for contig size to 10kB. However, in most cases contigs smaller than this represent a poor quality assembly, and resequencing, or reassembly with Velvet or Canu is suggested.
 
 ## Test Data
 A folder including all files neccessary to test the PERCEPTIVE app function is included [here](https://drive.google.com/drive/folders/1nhPLN9m4bMLwtM_H0rF81UbEbCayKo1t?usp=drive_link) on gdrive for Nannochloropsis gaditana. Download all files and place in a single folder. This folder will be the folder selected within the PERCEPTIVE app GUI.
 To test the Pipeline function, it is suggested to run the Pipeline in mode one using the Nannochloropsis gaditana genome for CCMP 1894 [here](https://genome.jgi.doe.gov/portal/pages/accessDenied.jsf?state=%27anonDownload%27) from JGI. At a later date GEO or SRA accessions may be made available with RNA-seq data, long read data, and short read data for testing, but is not currently provided.
+
 
 ## COPYRIGHT
 This package relies on several dependencies and pipelines. The authors make no claim of ownership, copyright, or maintenance for any or all of these dependencies.
