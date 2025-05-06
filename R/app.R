@@ -1390,11 +1390,7 @@ observeEvent(input$example,
              {
                showModal(modalDialog(
                  title = "Example",
-<<<<<<< HEAD
                  tags$img(src = "schema.jpg", height = "200px", width = "200px"),
-=======
-                 tags$img(src = "schema.jpeg", height = "200px", width = "200px"),
->>>>>>> b9df14058ba51dcf917439bcc8436f024eb0cdac
                  easyClose = TRUE,
                  footer = NULL
              ))}
