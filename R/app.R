@@ -1181,16 +1181,16 @@ server <- function(input, output, session){
                   {
                     probability[ty]<-probability[ty]+0.25
                   }
-                  H2bub<-c("Zero", "No", "No", "No", "Not Measured", "Not Measured", "Not Measured", "Not Measured")
+                  H2bub<-c("Zero (0%)", "No", "No", "No", "Not Measured", "Not Measured", "Not Measured", "Not Measured")
                   if(sum(H2BHHhits, H2BSChits)>0)
                   {
-                    H2bub[1]<-"Good"
+                    H2bub[1]<-"Good (62.5%)"
                   } else if (sum(H2BHHlefthits, H2BSClefthits)>0)
                   {
-                    H2bub[1]<-"Poor"
+                    H2bub[1]<-"Poor (37.5%)"
                   }else if (sum(H2BHHrighthits, H2BSCrighthits)>0)
                   {
-                    H2bub[1]<-"Poor"
+                    H2bub[1]<-"Poor (37.5%)"
                   }
 
                   if(sum(H2BHHhits, H2BSChits)>0)
@@ -1205,18 +1205,18 @@ server <- function(input, output, session){
                   {
                     H2bub[4]<-"Yes"
                   }
-                  if(H2bub[1]!="Good")
+                  if(H2bub[1]!="Good (62.5%)")
                   {probability[20]<-probability[20]-0.125}
 
                   probablity<-as.vector(probability)
-                  probablity[which(probability==0)]<-"Zero"
-                  probablity[which(probability==0.250)]<-"Negligable"
-                  probablity[which(probability==0.375)]<-"Poor"
-                  probablity[which(probability==0.5)]<-"Fair"
-                  probablity[which(probability==0.625)]<-"Good"
-                  probablity[which(probability==0.75)]<-"Better"
-                  probablity[which(probability==0.875)]<-"Excellent"
-                  probablity[which(probability==1)]<-"Best"
+                  probablity[which(probability==0)]<-"Zero (0%)"
+                  probablity[which(probability==0.250)]<-"Negligible (25%)"
+                  probablity[which(probability==0.375)]<-"Poor (37.5%)"
+                  probablity[which(probability==0.5)]<-"Fair (50%)"
+                  probablity[which(probability==0.625)]<-"Good (62.5%)"
+                  probablity[which(probability==0.75)]<-"Better (75%)"
+                  probablity[which(probability==0.875)]<-"Excellent (87.5%)"
+                  probablity[which(probability==1)]<-"Best (100%)"
                   descri[,1]<-probablity
                   descri<-as.data.frame(descri)
 
@@ -1230,25 +1230,23 @@ server <- function(input, output, session){
                   output$Predictions<-renderReactable({reactable(descri, pagination = FALSE, searchable = FALSE,
                                                             columns = list(
                                                               ".rownames" = colDef(width=90),
-                                                              "Probability" = colDef(width=90,
+                                                              "Probability" = colDef(width=100,
                                                                                      style = function(value) {
-                                                                                       if (grepl("Zero", value))
+                                                                                       if (grepl("Zero (0%)", value))
                                                                                        {color <- "#CA300F"
-                                                                                       }else if (grepl("Negligable", value))
+                                                                                       }else if (grepl("Negligible (25%)", value))
                                                                                        {color <- "#F76D4F"
-                                                                                       }else if (grepl("Poor", value))
+                                                                                       }else if (grepl("Poor (37.5%)", value))
                                                                                        {color <- "#FFAB3F"
-                                                                                       }else if (grepl("Fair", value))
+                                                                                       }else if (grepl("Fair (50%)", value))
                                                                                        {color <- "#FFc23F"
-                                                                                       }else if (grepl("Poor", value))
-                                                                                       {color <- "#FFEE3F"
-                                                                                       }else if (grepl("Good", value))
+                                                                                       }else if (grepl("Good (62.5%)", value))
                                                                                        {color <- "#BDE74D"
-                                                                                       }else if (grepl("Better", value))
+                                                                                       }else if (grepl("Better (75%)", value))
                                                                                        {color <- "#81D63D"
-                                                                                       }else if (grepl("Excellent", value))
+                                                                                       }else if (grepl("Excellent (87.5%)", value))
                                                                                        {color <- "#0Fa300"
-                                                                                       }else if (grepl("Best", value))
+                                                                                       }else if (grepl("Best (100%)", value))
                                                                                        {color <- "#0c8200"
                                                                                        }else
                                                                                        {color <- "black"}
