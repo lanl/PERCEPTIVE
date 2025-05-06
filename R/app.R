@@ -1391,7 +1391,7 @@ observeEvent(input$example,
 
                 showModal(modalDialog(
                  title = "Example",
-                 tags$img(src = "schema.jpg" ),
+                 tags$img(src = "schema.png" ),
                  easyClose = TRUE,
                  footer = NULL
              ))}
