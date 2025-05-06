@@ -1390,7 +1390,7 @@ observeEvent(input$example,
              {
              showModal(modalDialog(
                title = img(
-                src=system.file("www/schema.jpg", package = "PERCEPTIVEv3"),
+                src=system.file("schema.jpg", package = "PERCEPTIVEv3"),
                 style="display:block; margin-left:auto; margin-right:auto;"
                ),
              ))}
