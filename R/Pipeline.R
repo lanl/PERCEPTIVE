@@ -68,6 +68,11 @@ Pipeline<-function()
     }
     )
     observe({
+      shinyFileChoose(input, 'fastq2', roots=volumes)
+
+    }
+    )
+    observe({
       shinyFileChoose(input, 'fastqR1RNA', roots=volumes)
 
     }
@@ -110,6 +115,11 @@ Pipeline<-function()
 
     }
 
+    )
+    observe({
+      shinyFileChoose(input, 'blastdb', roots=volumes)
+
+    }
     )
 
     setwd(paste0(find.package("PERCEPTIVEv3"),"/tmp"))
@@ -208,6 +218,9 @@ if(is.na(defaults[1,1]))
               tnolog<<-"-pacbio"
               }else if (technology=="Pacbio HiFi")
               {tnolog<<-"-pacbio-hifi"}
+              canuarguments<-input$passthrough
+              if(canuarguments=="No")
+              {
               fileConn<-file("Canu.sh")
               writeLines(
                 c("mkdir tempforpipeline",
@@ -218,7 +231,19 @@ if(is.na(defaults[1,1]))
 
                 ), fileConn)
               close(fileConn)
+              }else if (canuarguments=="Yes")
+              {
+                fileConn<-file("Canu.sh")
+                writeLines(
+                  c("mkdir tempforpipeline",
+                    "cd tempforpipeline/",
+                    paste("cp",noquote(datalocationout),  "input.fastq"),
+                    paste0("singularity exec ../Perceptivev0.1.sif canu -d assembly -p assembled genomesize=",gsize, " ", tnolog, " input.fastq", canuargs),
+                    "cp assembly/assembled.contig.fasta input.fasta"
 
+                  ), fileConn)
+                close(fileConn)
+              }
 
               fileConn<-file("RepeatMasker.sh")
               writeLines(
@@ -255,19 +280,39 @@ if(is.na(defaults[1,1]))
                 ), fileConn)
               close(fileConn)
 
-              fileConn<-file("blasting.sh")
-              writeLines(
-                c("cd tempforpipeline/interpro",
-                  paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
-                  "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
-                  "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
-                  "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
-                  "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
-                  paste("
+              blastexp<-input$uniqueblast
+              if(blastexp=="No")
+              {
+                fileConn<-file("blasting.sh")
+                writeLines(
+                  c("cd tempforpipeline/interpro",
+                    paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                    "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                    "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                    "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                    "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                    paste("
                 singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
-                  paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
-                ), fileConn)
-              close(fileConn)
+                    paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+                  ), fileConn)
+                close(fileConn)
+              }else if (blastexp=="Yes")
+              {
+                blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+                fileConn<-file("blasting.sh")
+                writeLines(
+                  c("cd tempforpipeline/interpro",
+                    paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                    "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                    "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                    "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                    "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                    paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db", blastnewdb, "-db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+                    paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+                  ), fileConn)
+                close(fileConn)
+              }
 
               fileConn<-file("parsing.sh")
               writeLines(
@@ -342,7 +387,9 @@ if(is.na(defaults[1,1]))
           ))
 
         }else{
-
+          vevletpaired<-input$paired
+          if(velvetpaired=="No")
+          {
           fileConn<-file("Velvet.sh")
           writeLines(
             c("mkdir tempforpipeline",
@@ -357,6 +404,25 @@ if(is.na(defaults[1,1]))
 
             ), fileConn)
           close(fileConn)
+          }else if (velvetpaired=="Yes")
+          {
+            datalocationouttwo<<- as.character(parseFilePaths(roots = volumes, input$fastq2)[4])
+            fileConn<-file("Velvet.sh")
+            writeLines(
+              c("mkdir tempforpipeline",
+                "cd tempforpipeline/",
+                "mkdir Velvet",
+                "cd Velvet/",
+                paste("cp",noquote(datalocationout),  "input.fastq"),
+                paste("cp",noquote(datalocationouttwo),  "input2.fastq"),
+                paste("singularity exec ../../Perceptivev0.1.sif velveth assembly 31 -shortPaired -fastq -separate input.fastq input2.fastq"),
+                paste("singularity exec ../../Perceptivev0.1.sif velvetg assembly -exp_cov auto -cov_cutoff auto"),
+                "cp assembly/contigs.fa ../input.fasta",
+                "cd ../"
+
+              ), fileConn)
+            close(fileConn)
+          }
 
 
           fileConn<-file("RepeatMasker.sh")
@@ -394,19 +460,39 @@ if(is.na(defaults[1,1]))
             ), fileConn)
           close(fileConn)
 
-          fileConn<-file("blasting.sh")
-          writeLines(
-            c("cd tempforpipeline/interpro",
-              paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
-              "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
-              "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
-              "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
-              "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
-              paste("
+          blastexp<-input$uniqueblast
+          if(blastexp=="No")
+          {
+            fileConn<-file("blasting.sh")
+            writeLines(
+              c("cd tempforpipeline/interpro",
+                paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                paste("
                 singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
-              paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
-            ), fileConn)
-          close(fileConn)
+                paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+              ), fileConn)
+            close(fileConn)
+          }else if (blastexp=="Yes")
+          {
+            blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+            fileConn<-file("blasting.sh")
+            writeLines(
+              c("cd tempforpipeline/interpro",
+                paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db", blastnewdb, "-db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+                paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+              ), fileConn)
+            close(fileConn)
+          }
 
           fileConn<-file("parsing.sh")
           writeLines(
@@ -497,16 +583,32 @@ if(is.na(defaults[1,1]))
               }else if (technology=="Pacbio HiFi")
               {tnolog<<-"-pacbio-hifi"}
               fileConn<-file("Canu.sh")
-              writeLines(
-                c("mkdir tempforpipeline",
-                  "cd tempforpipeline/",
-                  paste("cp",noquote(datalocationout),  "input.fastq"),
-                  paste0("singularity exec ../Perceptivev0.1.sif canu -d assembly -p assembled genomesize=",gsize, " ", tnolog, " input.fastq"),
-                  "cp assembly/assembled.contig.fasta input.fasta"
+              canuarguments<-input$passthrough
+              if(canuarguments=="No")
+              {
+                fileConn<-file("Canu.sh")
+                writeLines(
+                  c("mkdir tempforpipeline",
+                    "cd tempforpipeline/",
+                    paste("cp",noquote(datalocationout),  "input.fastq"),
+                    paste0("singularity exec ../Perceptivev0.1.sif canu -d assembly -p assembled genomesize=",gsize, " ", tnolog, " input.fastq"),
+                    "cp assembly/assembled.contig.fasta input.fasta"
 
-                ), fileConn)
-              close(fileConn)
+                  ), fileConn)
+                close(fileConn)
+              }else if (canuarguments=="Yes")
+              {
+                fileConn<-file("Canu.sh")
+                writeLines(
+                  c("mkdir tempforpipeline",
+                    "cd tempforpipeline/",
+                    paste("cp",noquote(datalocationout),  "input.fastq"),
+                    paste0("singularity exec ../Perceptivev0.1.sif canu -d assembly -p assembled genomesize=",gsize, " ", tnolog, " input.fastq", canuargs),
+                    "cp assembly/assembled.contig.fasta input.fasta"
 
+                  ), fileConn)
+                close(fileConn)
+              }
 
               fileConn<-file("RepeatMasker.sh")
               writeLines(
@@ -543,19 +645,39 @@ if(is.na(defaults[1,1]))
                 ), fileConn)
               close(fileConn)
 
-              fileConn<-file("blasting.sh")
-              writeLines(
-                c("cd tempforpipeline/interpro",
-                  paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
-                  "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
-                  "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
-                  "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
-                  "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
-                  paste("
+              blastexp<-input$uniqueblast
+              if(blastexp=="No")
+              {
+                fileConn<-file("blasting.sh")
+                writeLines(
+                  c("cd tempforpipeline/interpro",
+                    paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                    "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                    "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                    "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                    "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                    paste("
                 singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
-                  paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
-                ), fileConn)
-              close(fileConn)
+                    paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+                  ), fileConn)
+                close(fileConn)
+              }else if (blastexp=="Yes")
+              {
+                blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+                fileConn<-file("blasting.sh")
+                writeLines(
+                  c("cd tempforpipeline/interpro",
+                    paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                    "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                    "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                    "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                    "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                    paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db", blastnewdb, "-db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+                    paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+                  ), fileConn)
+                close(fileConn)
+              }
 
               fileConn<-file("parsing.sh")
               writeLines(
@@ -639,21 +761,42 @@ if(is.na(defaults[1,1]))
 
           }else{
 
-            fileConn<-file("Velvet.sh")
-            writeLines(
-              c("mkdir tempforpipeline",
-                "cd tempforpipeline/",
-                "mkdir Velvet",
-                "cd Velvet/",
-                paste("cp",noquote(datalocationout),  "input.fastq"),
-                paste("singularity exec ../../Perceptivev0.1.sif velveth assembly 31 -fastq input.fastq"),
-                paste("singularity exec ../../Perceptivev0.1.sif velvetg assembly -exp_cov auto -cov_cutoff auto"),
-                "cp assembly/contigs.fa ../input.fasta",
-                "cd ../"
+            vevletpaired<-input$paired
+            if(velvetpaired=="No")
+            {
+              fileConn<-file("Velvet.sh")
+              writeLines(
+                c("mkdir tempforpipeline",
+                  "cd tempforpipeline/",
+                  "mkdir Velvet",
+                  "cd Velvet/",
+                  paste("cp",noquote(datalocationout),  "input.fastq"),
+                  paste("singularity exec ../../Perceptivev0.1.sif velveth assembly 31 -fastq input.fastq"),
+                  paste("singularity exec ../../Perceptivev0.1.sif velvetg assembly -exp_cov auto -cov_cutoff auto"),
+                  "cp assembly/contigs.fa ../input.fasta",
+                  "cd ../"
 
-              ), fileConn)
-            close(fileConn)
+                ), fileConn)
+              close(fileConn)
+            }else if (velvetpaired=="Yes")
+            {
+              datalocationouttwo<<- as.character(parseFilePaths(roots = volumes, input$fastq2)[4])
+              fileConn<-file("Velvet.sh")
+              writeLines(
+                c("mkdir tempforpipeline",
+                  "cd tempforpipeline/",
+                  "mkdir Velvet",
+                  "cd Velvet/",
+                  paste("cp",noquote(datalocationout),  "input.fastq"),
+                  paste("cp",noquote(datalocationouttwo),  "input2.fastq"),
+                  paste("singularity exec ../../Perceptivev0.1.sif velveth assembly 31 -shortPaired -fastq -separate input.fastq input2.fastq"),
+                  paste("singularity exec ../../Perceptivev0.1.sif velvetg assembly -exp_cov auto -cov_cutoff auto"),
+                  "cp assembly/contigs.fa ../input.fasta",
+                  "cd ../"
 
+                ), fileConn)
+              close(fileConn)
+            }
 
             fileConn<-file("RepeatMasker.sh")
             writeLines(
@@ -690,19 +833,39 @@ if(is.na(defaults[1,1]))
               ), fileConn)
             close(fileConn)
 
-            fileConn<-file("blasting.sh")
-            writeLines(
-              c("cd tempforpipeline/interpro",
-                paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
-                "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
-                "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
-                "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
-                "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
-                paste("
+            blastexp<-input$uniqueblast
+            if(blastexp=="No")
+            {
+              fileConn<-file("blasting.sh")
+              writeLines(
+                c("cd tempforpipeline/interpro",
+                  paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                  "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                  "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                  "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                  "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                  paste("
                 singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db /dependencies/modelorgsprot/modelorgsprot -db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
-                paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
-              ), fileConn)
-            close(fileConn)
+                  paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+                ), fileConn)
+              close(fileConn)
+            }else if (blastexp=="Yes")
+            {
+              blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+              fileConn<-file("blasting.sh")
+              writeLines(
+                c("cd tempforpipeline/interpro",
+                  paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                  "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                  "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                  "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                  "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                  paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db", blastnewdb, "-db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+                  paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+                ), fileConn)
+              close(fileConn)
+            }
 
             fileConn<-file("parsing.sh")
             writeLines(
@@ -829,6 +992,9 @@ if(is.na(defaults[1,1]))
             ), fileConn)
           close(fileConn)
 
+          blastexp<-input$uniqueblast
+          if(blastexp=="No")
+          {
           fileConn<-file("blasting.sh")
           writeLines(
             c("cd tempforpipeline/interpro",
@@ -842,6 +1008,23 @@ if(is.na(defaults[1,1]))
               paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
             ), fileConn)
           close(fileConn)
+          }else if (blastexp=="Yes")
+          {
+            blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+            fileConn<-file("blasting.sh")
+            writeLines(
+              c("cd tempforpipeline/interpro",
+                paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db", blastnewdb, "-db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+                paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+              ), fileConn)
+            close(fileConn)
+          }
 
           fileConn<-file("parsing.sh")
           writeLines(
@@ -960,7 +1143,9 @@ if(is.na(defaults[1,1]))
 
             ), fileConn)
           close(fileConn)
-
+          blastexp<-input$uniqueblast
+          if(blastexp=="No")
+          {
           fileConn<-file("blasting.sh")
           writeLines(
             c("cd tempforpipeline/interpro",
@@ -974,6 +1159,23 @@ if(is.na(defaults[1,1]))
               paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
             ), fileConn)
           close(fileConn)
+          }else if (blastexp=="Yes")
+          {
+            blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+            fileConn<-file("blasting.sh")
+            writeLines(
+              c("cd tempforpipeline/interpro",
+                paste("cat ../../../ListofINTERPRONUMBERS.csv | cut -d", as.character('","'), "-f1 | sort -u > justIPR"),
+                "for line in $(cat justIPR); do grep -w $line braker.peptide.tsv >> InterproIdentified.txt; done",
+                "cut -f1 InterproIdentified.txt> InterproIdentifiedjustgene.txt",
+                "cat InterproIdentifiedjustgene.txt | uniq > InterproIdentifiedjustgeneuniq.txt",
+                "grep -w -A 2 -f  InterproIdentifiedjustgeneuniq.txt braker.peptide --no-group-separator > peptides_interpro.faa",
+                paste("
+                singularity exec ../../Perceptivev0.1.sif blastp -query peptides_interpro.faa -db", blastnewdb, "-db_soft_mask 21 -outfmt 7 -out blastx_outfmt7_results.out -num_threads", nprocout),
+                paste("grep -v", as.character('"#"'), "blastx_outfmt7_results.out > nocommentedlines.txt")
+              ), fileConn)
+            close(fileConn)
+          }
 
           fileConn<-file("parsing.sh")
           writeLines(
@@ -1085,7 +1287,7 @@ if(is.na(defaults[1,1]))
                                   textInput("numcore", "Number of cores:", value = "", width = NULL, placeholder = NULL),
                                   div( h5(HTML("<b>What is your species name? Please only use alphanumeric characters and no spaces. For example H_sapiens, Drosophila_melanogaster, or CR1998 are appropriate inputs. </b>"))),
                                   textInput("speciesname", "Species name:", value = "", width = NULL, placeholder = NULL),
-                                  div( h5(HTML("<b>Do you want to perform <i> de novo </i> genome assembly (not recommended)? </b>"))),
+                                  div( h5(HTML("<b>Do you want to perform <i> de novo </i> genome assembly (beta)? </b>"))),
                                   radioButtons(
                                     "denovo", "Select an option", c("Yes", "No"), inline = TRUE, selected="No"
                                   ),
@@ -1093,24 +1295,51 @@ if(is.na(defaults[1,1]))
                                   conditionalPanel(condition="input.denovo == 'No'", suppressWarnings (shinyFilesButton('fasta', 'Select FASTA' , 'Select pathway to fasta:', multiple = FALSE,
                                                  buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder")))),
                                   conditionalPanel(condition="input.denovo == 'Yes'",
-                                                   div( h5(HTML("<b>Expected file is unzipped fastq from Nanopore or Pacbio sequencer. PERCEPTIVE will not use gzipped fastq. </b>"))),
-                                                   suppressWarnings (shinyFilesButton('fastq', 'Select FASTQ' , 'Select pathway to fastq:', multiple = FALSE,
-                                                                                                    buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
+
                                                    div( h5(HTML("<b>Are your raw reads long (ONT etc.) or short (Illumina etc.)? </b>"))),
                                                    radioButtons(
                                                      "length", "Select an option", c("Long", "Short"), inline = TRUE
                                                    ),
-                                                   conditionalPanel(condition = "input.length =='Short'",),
+                                                   conditionalPanel(condition = "input.length =='Short'",
+                                                                    div(h5(HTML("Is your input paired ended short reads?"))),
+                                                                    radioButtons(
+                                                                      "paired", "Select an option", c("No", "Yes"), inline = TRUE, selected="No"
+                                                                    ),
+                                                                    conditionalPanel(condition = "input.paired =='No'",
+                                                                                     div(h5(HTML("<b>Expected file is unzipped fastq from Illumina sequencer. PERCEPTIVE will not use gzipped fastq.</b>"))),
+                                                                                     suppressWarnings (shinyFilesButton('fastq', 'Select FASTQ' , 'Select pathway to fastq:', multiple = FALSE,
+                                                                                                                        buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder")))
+                                                                    ),
+                                                                    conditionalPanel(condition = "input.paired =='Yes'",
+                                                                                     div( h5(HTML("<b>Expected files is unzipped fastq from Illumina sequencer. PERCEPTIVE will not use gzipped fastq.</b>"))),
+                                                                                     suppressWarnings (shinyFilesButton('fastq', 'Select FASTQ R1' , 'Select pathway to fastq R1:', multiple = FALSE,
+                                                                                                                        buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
+                                                                                     suppressWarnings (shinyFilesButton('fastq2', 'Select FASTQ R2' , 'Select pathway to fastq R2:', multiple = FALSE,
+                                                                                                                        buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
+                                                                    ),
+                                                                    ),
                                                    conditionalPanel(condition = "input.length =='Long'",
+                                                                    div( h5(HTML("<b>Expected file is unzipped fastq from Nanopore or Pacbio sequencer. PERCEPTIVE will not use gzipped fastq.  </b> Canu expects Nanopore/Pacbio reads to be untrimmed and uncorrected (however corrected or trimmed reads are fine). With respect to HiFi reads, Canu expects corrected and trimmed reads and may not provide expected results with untrimmed/uncorrected reads."))),
+                                                                    suppressWarnings (shinyFilesButton('fastq', 'Select FASTQ' , 'Select pathway to fastq:', multiple = FALSE,
+                                                                                                       buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
                                                                     radioButtons(
                                                                       "tech", "Select a long read technology", c("Nanopore", "Pacbio", "Pacbio HiFi"), inline = TRUE
                                                                     ),
-                                                                    div( h5(HTML("<b>What is the estimated size of your genome in bases? Use jellyfish or GenomeSource for estimates, or the size of a closely related genome. </b>"))),
-                                                                    textInput("genomesize", "Genome Size:", value = "", width = NULL, placeholder = NULL)
+                                                                    div(h5(HTML("<b>What is the estimated size of your genome in bases? Use jellyfish or GenomeSource for estimates, or the size of a closely related genome. </b>"))),
+                                                                    textInput("genomesize", "Genome Size:", value = "", width = NULL, placeholder = NULL),
+                                                                    div(h5(HTML(paste("<b>Do you want to pass additional arguments to Canu other than genome size (beta, not recommended)? </b>Please read the docs", tags$a(href="https://canu.readthedocs.io/en/latest/parameter-reference.html", "here."))))),
+                                                                    radioButtons(
+                                                                      "passthrough", "Select an option", c("No", "Yes"), inline = TRUE, selected="No"
+                                                                    ),
+                                                                    conditionalPanel(condition = "input.passthrough =='No'",),
+                                                                    conditionalPanel(condition = "input.passthrough =='Yes'",
+                                                                                     div(h5(HTML("<b>Do not pass 'canu', -p <assembly-prefix>, -d <assembly-directory>, genomeSize=<number>[g|m|k], [-pacbio|-nanopore|-pacbio-hifi], or path to fastq. </b>"))),
+                                                                                     textInput("canuargs", "Additional arguments:", value = "", width = NULL, placeholder = NULL)
+                                                                    ),
                                                    ),
                                                    ),
 
-                                  div( h5(HTML("<b>Do you want to use short read total RNA-seq data for gene predictions? </b>"))),
+                                  div( h5(HTML("<b>Do you want to use unaligened short read total RNA-seq data to enhance gene predictions?</b>"))),
                                   radioButtons(
                                     "RNA", "Select an option", c("Yes", "No"), inline = TRUE, selected="No"
                                   ),
@@ -1132,6 +1361,15 @@ Thus, depending on evolutionary divergence since the origination of a transposab
 
                                   div( h5(HTML("</br> Please select an e-value cutoff for BLAST results. For example, 0.05 will result in a false discovery rate of 5%. Lower values will yield more stringent results, but 0.05 is recommended to start."))),
                                   textInput("eval", "e-value:", value = "0.05", width = NULL, placeholder = NULL),
+                                  div( h5(HTML("Do you want to override PERCEPTIVE defaults and blast against your own non-model blast database? Please generate this database using instructions on github."))),
+                                  radioButtons(
+                                    "uniqueblast", "Select an option", c("No", "Yes"), inline = TRUE, selected="No"
+                                  ),
+                                  conditionalPanel(condition = "input.uniqueblast =='No'",),
+                                  conditionalPanel(condition = "input.uniqueblast =='Yes'",
+                                                   suppressWarnings (shinyFilesButton('blastdb', 'Select pathway to blastDB' , 'Select pathway to blastDB:', multiple = FALSE,
+                                                                                      buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
+                                  ),
                                   div(style = "display:inline-block; float:right; padding:10px",  actionButton("run", "Run PERCEPTIVE Pipeline", icon("gear"))),
                                   div(style = "display:inline-block; float:right", h6(HTML(" </br>Note: On a machine with 36 cores and 64GB of memory, PERCEPTIVE runs for ~24hrs for a 300MB genome.</b>"))),
 
