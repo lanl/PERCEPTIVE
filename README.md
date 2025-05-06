@@ -103,8 +103,8 @@ Similar to mode three, this  mode requires input of either unassembled short or 
 *Canu: If the user so chooses, additional arguments can be passed to Canu within PERCEPTIVE. This has not been exhaustively tested, and the user is warned in advance. Please monitor the terminal output for appropriate error and warning messages from Canu and PERCEPTIVE.
 
 
-### Aditional Option: Blast+ to blast database of user choosing (override PERCEPTIVE defaults)
-To override PERCEPTIVE model organism blast database and blast against a user-defined database follow these directions to generate a database:
+### Aditional Option: Blast to database of user choice (override PERCEPTIVE defaults)
+To override the PERCEPTIVE model organism blast database and blast against a user-defined database, follow these directions to generate a database:
 
 Download reference files specfic to organisms of interest, identified by [taxon number](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/command-line/datasets/summary/taxonomy/datasets_summary_taxonomy_taxon/) using NCBI [datasets](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/) tool:
 ```
