@@ -125,7 +125,7 @@ makeblastdb -in total.faa -title modelorgs -mask_data totalprot.asnb -dbtype pro
 ```
 
 ## Errors
-A 'common' error occurs when using GeneMark-ES with _poorly_ assembled genomes. In the case of numerous small contigs (<50kB) GeneMark will fail to run providing no gene predictions. PERCEPTIVE will attempt to salvage this by lowering the threshold for contig size to 10kB. However, in most cases contigs smaller than this represent a poor quality assembly, and resequencing, or reassembly with Velvet or Canu is suggested.
+A 'common' error occurs when using GeneMark-ES with _poorly_ assembled genomes. In the case of numerous small contigs (<50kB) GeneMark will fail to run providing no gene predictions. PERCEPTIVE will attempt to salvage this by lowering the threshold for contig size to 10kB. However, in most cases contigs smaller than this represent a poor quality assembly, and resequencing, or reassembly with Velvet or Canu is suggested. The hallmark of this error is the warning message: GeneMark fails! seen in the terminal. Additional error handling will be added at a future date.
 
 ## Test Data
 A folder including all files neccessary to test the PERCEPTIVE app function is included [here](https://drive.google.com/drive/folders/1nhPLN9m4bMLwtM_H0rF81UbEbCayKo1t?usp=drive_link) on gdrive for Nannochloropsis gaditana. Download all files and place in a single folder. This folder will be the folder selected within the PERCEPTIVE app GUI.
