@@ -1391,7 +1391,8 @@ observeEvent(input$example,
 
                 showModal(modalDialog(
                  title = "Example",
-                 HTML(paste0('<img src="',find.package("PERCEPTIVEv3"),'/schema.jpg"/>')),
+                 #HTML(paste0('<img src="',find.package("PERCEPTIVEv3"),'/schema.jpg"/>')),
+                 tag$img(src="https://github.com/lanl/PERCEPTIVE/blob/main/inst/schema.jpg"),
                  easyClose = TRUE,
                  footer = NULL
              ))}
