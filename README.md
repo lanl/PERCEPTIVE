@@ -94,9 +94,35 @@ In this mode the input is solely an unmasked assembled genome. This genome could
 #### Two: Assembled Geneome with RNA-seq
 In this mode the input is an unmasked assembled genome and unaligned RNA-seq reads from a total RNA library preparation (note: sequencing depth must be at minimum 20X coverage for the transcriptome). This mode may perform better if a species is highly esoteric, ie., it is expected to possess many proteins with high divergence from other Eukaryotes. (Selections: Would you like to perform de novo genome assembly: no, RNA-seq: yes)
 #### Three: Genome assembly without RNA-seq
-Similar to mode one, this mode solely requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assembly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size. We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. (Selections: Would you like to perform de novo genome assembly: yes, short(velvet) or long (canu), RNA-seq: no)
+Similar to mode one, this mode solely requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assembly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size (for Canu). We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. (Selections: Would you like to perform de novo genome assembly: yes, short(velvet) or long (canu), RNA-seq: no)
 #### Four: Genome assembly with RNA-seq
-Similar to mode three, this  mode requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assembly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size. We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. This mode additionally requires unaligned RNA-seq data from a total RNA library preparation, (see note above). (Selections: Would you like to perform de novo genome assembly: yes, short (velvet) or long (canu), RNA-seq: yes)
+Similar to mode three, this  mode requires input of either unassembled short or long reads. In this mode de novo genome assembly will be performed, and the assembly generated will be used as input to the Pipeline. The user must also provide an approximate estimated genome size (for Canu). We recommend using jellyfish or GenomeSource for estimation of genome size. Alternatively, if a close relative for your species has been assembled, the size of that genome can be used as an estimate. This mode additionally requires unaligned RNA-seq data from a total RNA library preparation, (see note above). (Selections: Would you like to perform de novo genome assembly: yes, short (velvet) or long (canu), RNA-seq: yes)
+#### Options three and four further details
+*Velvet: If Velvet is to be used with short reads, either single or paired end reads can be used. Please specify as appropriate.
+
+*Canu: If the user so chooses, additional arguments can be passed to Canu within PERCEPTIVE. This has not been exhaustively tested, and the user is warned in advance. Please monitor the terminal output for appropriate error and warning messages from Canu and PERCEPTIVE.
+
+
+#### Aditional Option: Blast+ to blast database of user choosing (override PERCEPTIVE defaults)
+To override PERCEPTIVE model organism blast database and blast against a user-defined database follow these directions to generate a database:
+
+Download reference files specfic to organisms of interest, identified by [taxon number](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/command-line/datasets/summary/taxonomy/datasets_summary_taxonomy_taxon/) using NCBI [datasets](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/) tool:
+```
+datasets download genome taxon [your taxa here] --reference --include protein
+```
+Unzip and extract relevant .faa files. IF you want to create a database containing multiple organisms, the .faa (protein) files can be concatenated.
+```
+unzip ncbi_dataset.zip
+cat *.faa > total.faa
+```
+The concatenated files must now be run through [segmasker](https://blast.ncbi.nlm.nih.gov/doc/blast-help/downloadblastdata.html) from blast+.
+```
+segmasker -in total.faa -infmt fasta -parse_seqids -outfmt maskinfo_asn1_bin -out totalprot.asnb
+```
+Finally, using makeblastdb from [blast+](https://blast.ncbi.nlm.nih.gov/doc/blast-help/downloadblastdata.html) you can make a blast database. The resulting folder will be used by PERCEPTIVE instead of the included database of model organism sequences.
+```
+makeblastdb -in total.faa -title modelorgs -mask_data totalprot.asnb -dbtype prot -out modelorgsprot -parse_seqids
+```
 
 
 ## Test Data
