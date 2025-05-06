@@ -110,7 +110,7 @@ Download reference files specfic to organisms of interest, identified by [taxon 
 ```
 datasets download genome taxon [your taxa here] --reference --include protein
 ```
-Unzip and extract relevant .faa files. IF you want to create a database containing multiple organisms, the .faa (protein) files can be concatenated.
+Unzip and extract relevant .faa files. **If you want to create a database containing multiple organisms, the .faa (protein) files can be concatenated.**
 ```
 unzip ncbi_dataset.zip
 cat *.faa > total.faa
