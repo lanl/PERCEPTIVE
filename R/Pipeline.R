@@ -117,7 +117,7 @@ Pipeline<-function()
 
     )
     observe({
-      shinyFileChoose(input, 'blastdb', roots=volumes)
+      shinyDirChoose(input, 'blastdb', roots=volumes)
 
     }
     )
@@ -298,7 +298,7 @@ if(is.na(defaults[1,1]))
                 close(fileConn)
               }else if (blastexp=="Yes")
               {
-                blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+                blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
                 fileConn<-file("blasting.sh")
                 writeLines(
                   c("cd tempforpipeline/interpro",
@@ -478,7 +478,7 @@ if(is.na(defaults[1,1]))
             close(fileConn)
           }else if (blastexp=="Yes")
           {
-            blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+            blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
             fileConn<-file("blasting.sh")
             writeLines(
               c("cd tempforpipeline/interpro",
@@ -663,7 +663,7 @@ if(is.na(defaults[1,1]))
                 close(fileConn)
               }else if (blastexp=="Yes")
               {
-                blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+                blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
                 fileConn<-file("blasting.sh")
                 writeLines(
                   c("cd tempforpipeline/interpro",
@@ -851,7 +851,7 @@ if(is.na(defaults[1,1]))
               close(fileConn)
             }else if (blastexp=="Yes")
             {
-              blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+              blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
               fileConn<-file("blasting.sh")
               writeLines(
                 c("cd tempforpipeline/interpro",
@@ -1010,7 +1010,7 @@ if(is.na(defaults[1,1]))
           close(fileConn)
           }else if (blastexp=="Yes")
           {
-            blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+            blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
             fileConn<-file("blasting.sh")
             writeLines(
               c("cd tempforpipeline/interpro",
@@ -1161,7 +1161,7 @@ if(is.na(defaults[1,1]))
           close(fileConn)
           }else if (blastexp=="Yes")
           {
-            blastnewdb<<- as.character(parseFilePaths(roots = volumes, input$blastdb)[4])
+            blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
             fileConn<-file("blasting.sh")
             writeLines(
               c("cd tempforpipeline/interpro",
@@ -1367,8 +1367,8 @@ Thus, depending on evolutionary divergence since the origination of a transposab
                                   ),
                                   conditionalPanel(condition = "input.uniqueblast =='No'",),
                                   conditionalPanel(condition = "input.uniqueblast =='Yes'",
-                                                   suppressWarnings (shinyFilesButton('blastdb', 'Select pathway to blastDB' , 'Select pathway to blastDB:', multiple = FALSE,
-                                                                                      buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
+                                                   suppressWarnings (shinyDirButton('blastdb', 'Select pathway to blastDB' , 'Select pathway to blastDB:', multiple = FALSE,
+                                                                                    buttonType = "default", class = NULL, style="color: #fff; background-color: #337ab7; border-color: #2e6da4", icon("folder"))),
                                   ),
                                   div(style = "display:inline-block; float:right; padding:10px",  actionButton("run", "Run PERCEPTIVE Pipeline", icon("gear"))),
                                   div(style = "display:inline-block; float:right", h6(HTML(" </br>Note: On a machine with 36 cores and 64GB of memory, PERCEPTIVE runs for ~24hrs for a 300MB genome.</b>"))),
