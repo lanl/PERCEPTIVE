@@ -103,7 +103,7 @@ Similar to mode three, this  mode requires input of either unassembled short or 
 *Canu: If the user so chooses, additional arguments can be passed to Canu within PERCEPTIVE. This has not been exhaustively tested, and the user is warned in advance. Please monitor the terminal output for appropriate error and warning messages from Canu and PERCEPTIVE.
 
 
-#### Aditional Option: Blast+ to blast database of user choosing (override PERCEPTIVE defaults)
+### Aditional Option: Blast+ to blast database of user choosing (override PERCEPTIVE defaults)
 To override PERCEPTIVE model organism blast database and blast against a user-defined database follow these directions to generate a database:
 
 Download reference files specfic to organisms of interest, identified by [taxon number](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/command-line/datasets/summary/taxonomy/datasets_summary_taxonomy_taxon/) using NCBI [datasets](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/) tool:
@@ -124,7 +124,7 @@ Finally, using makeblastdb from [blast+](https://blast.ncbi.nlm.nih.gov/doc/blas
 makeblastdb -in total.faa -title modelorgs -mask_data totalprot.asnb -dbtype prot -out modelorgsprot -parse_seqids
 ```
 
-#### Errors
+## Errors
 A 'common' error occurs when using GeneMark-ES with _poorly_ assembled genomes. In the case of numerous small contigs (<50kB) GeneMark will fail to run providing no gene predictions. PERCEPTIVE will attempt to salvage this by lowering the threshold for contig size to 10kB. However, in most cases contigs smaller than this represent a poor quality assembly, and resequencing, or reassembly with Velvet or Canu is suggested.
 
 ## Test Data
