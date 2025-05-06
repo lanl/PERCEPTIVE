@@ -1390,7 +1390,7 @@ observeEvent(input$example,
              {
                showModal(modalDialog(
                  title = "Example",
-                 HTML('<img src="schema.jpg" alt="H3K4me3 Example Image"/>'),
+                 HTML('<img src="www/schema.jpg">'),
                  tags$img(src = "schema.jpg", width = "200px"),
                  easyClose = TRUE,
                  footer = NULL
