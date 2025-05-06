@@ -1991,7 +1991,7 @@ ui <- dashboardPage(scrollToTop = TRUE, skin="green",
 
 
             h2("Predicted DNA and Histone Epigenetic Modifications"),
-            div(h4(HTML("<b>Probability associated with modification is represented on a scale from Zero to Excellent, with corresponding percentages of criterion met as outlined here in this example for H3K4me3: </b>"))),
+            div(h2(HTML("<b>Probability associated with modification is represented on a scale from Zero to Excellent, with corresponding percentages of criterion met as outlined here in this example for H3K4me3: </b>"))),
             div(style = "display:inline-block; float:right",  actionButton('example', 'Example', icon("lightbulb"),
                                                                            style="color: #fff; background-color: #28A745; border-color: #2e6da4")),
             reactableOutput("Predictions"),
