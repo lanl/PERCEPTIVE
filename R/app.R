@@ -13,9 +13,6 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library(ggplot2)
 
-addResourcePath(prefix = "packagepath", directoryPath = find.package("PERCEPTIVEv3"))
-
-
 
 server <- function(input, output, session){
 
@@ -1392,7 +1389,7 @@ observeEvent(input$example,
                 showModal(modalDialog(
 
                  title = "Example",
-                 tags$img(src = paste0(packagepath,"schema.jpg") ),
+                 tags$img(src = "/schema.jpg" ),
                  easyClose = TRUE,
                  footer = NULL
              ))}
