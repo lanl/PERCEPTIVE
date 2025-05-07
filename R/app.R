@@ -1390,14 +1390,13 @@ observeEvent(input$example,
 
                  title = "Example",
                  tags$img(src = "imagepath/schema.jpg", width = "300px"),
-                 "This is an important message!",
+                 "In this example for H3K36me3 scoring is additive. First, a modifiable residue must be present H3K36. If it is present the modification is given 0.5 points. If an appropriate residue is found in an 'offset' position e.g., H3K37 it is given 0.25 points. Next, if specific writer of the mark e.g., Set2 is predicted, and a specific eraser e.g., KDM4A is predicted the modification is given an additional 0.25 points for each. This results in a score of 1/1 or 100% of criteria being met. This is given a descriptor of a 'best' probability prediction.",
                  easyClose = TRUE,
                  footer = NULL
              ))}
              )
 
 observeEvent(input$show_details,
-
              {
               vacant<-is.na(IP_table_w_hits_details[,8])
               if(vacant[as.numeric(input$show_details)]==FALSE){
