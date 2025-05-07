@@ -1339,7 +1339,7 @@ if(is.na(defaults[1,1]))
                                                    ),
                                                    ),
 
-                                  div( h5(HTML("<b>Do you want to use unaligened short read total RNA-seq data to enhance gene predictions?</b>"))),
+                                  div( h5(HTML("<b>Do you want to use unaligned short read total RNA-seq data to enhance gene predictions?</b>"))),
                                   radioButtons(
                                     "RNA", "Select an option", c("Yes", "No"), inline = TRUE, selected="No"
                                   ),
