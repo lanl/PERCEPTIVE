@@ -299,6 +299,8 @@ if(is.na(defaults[1,1]))
               }else if (blastexp=="Yes")
               {
                 blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
+                databasename<-unlist(strsplit(list.files(path=blastnewdb)[1],"\\."))[1]
+                blastnewdb<-paste0(blastnewdb, "/", databasename)
                 fileConn<-file("blasting.sh")
                 writeLines(
                   c("cd tempforpipeline/interpro",
@@ -479,6 +481,8 @@ if(is.na(defaults[1,1]))
           }else if (blastexp=="Yes")
           {
             blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
+            databasename<-unlist(strsplit(list.files(path=blastnewdb)[1],"\\."))[1]
+            blastnewdb<-paste0(blastnewdb, "/", databasename)
             fileConn<-file("blasting.sh")
             writeLines(
               c("cd tempforpipeline/interpro",
@@ -664,6 +668,8 @@ if(is.na(defaults[1,1]))
               }else if (blastexp=="Yes")
               {
                 blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
+                databasename<-unlist(strsplit(list.files(path=blastnewdb)[1],"\\."))[1]
+                blastnewdb<-paste0(blastnewdb, "/", databasename)
                 fileConn<-file("blasting.sh")
                 writeLines(
                   c("cd tempforpipeline/interpro",
@@ -852,6 +858,8 @@ if(is.na(defaults[1,1]))
             }else if (blastexp=="Yes")
             {
               blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
+              databasename<-unlist(strsplit(list.files(path=blastnewdb)[1],"\\."))[1]
+              blastnewdb<-paste0(blastnewdb, "/", databasename)
               fileConn<-file("blasting.sh")
               writeLines(
                 c("cd tempforpipeline/interpro",
@@ -1011,6 +1019,8 @@ if(is.na(defaults[1,1]))
           }else if (blastexp=="Yes")
           {
             blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
+            databasename<-unlist(strsplit(list.files(path=blastnewdb)[1],"\\."))[1]
+            blastnewdb<-paste0(blastnewdb, "/", databasename)
             fileConn<-file("blasting.sh")
             writeLines(
               c("cd tempforpipeline/interpro",
@@ -1162,6 +1172,8 @@ if(is.na(defaults[1,1]))
           }else if (blastexp=="Yes")
           {
             blastnewdb<<- as.character(parseDirPath(roots = volumes, input$blastdb))
+            databasename<-unlist(strsplit(list.files(path=blastnewdb)[1],"\\."))[1]
+            blastnewdb<-paste0(blastnewdb, "/", databasename)
             fileConn<-file("blasting.sh")
             writeLines(
               c("cd tempforpipeline/interpro",
