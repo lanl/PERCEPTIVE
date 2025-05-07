@@ -119,9 +119,11 @@ The concatenated files must now be run through [segmasker](https://blast.ncbi.nl
 ```
 segmasker -in total.faa -infmt fasta -parse_seqids -outfmt maskinfo_asn1_bin -out totalprot.asnb
 ```
-Finally, using makeblastdb from [blast+](https://blast.ncbi.nlm.nih.gov/doc/blast-help/downloadblastdata.html) you can make a blast database. The resulting folder will be used by PERCEPTIVE instead of the included database of model organism sequences.
+Finally, using makeblastdb from [blast+](https://blast.ncbi.nlm.nih.gov/doc/blast-help/downloadblastdata.html) you can make a blast database. The resulting folder will be used by PERCEPTIVE instead of the included database of model organism sequences. It is recommended to retain the naming below for directories.
 ```
 makeblastdb -in total.faa -title modelorgs -mask_data totalprot.asnb -dbtype prot -out modelorgsprot -parse_seqids
+mkdir databaseprot/
+mv *modelorgsprot* databaseprot/
 ```
 
 ## Errors
