@@ -1389,7 +1389,8 @@ observeEvent(input$example,
                 showModal(modalDialog(
 
                  title = "Example",
-                 tags$img(src = "imagepath/schema.jpg" ),
+                 tags$img(src = "imagepath/schema.jpg", width = "300px"),
+                 "This is an important message!",
                  easyClose = TRUE,
                  footer = NULL
              ))}
