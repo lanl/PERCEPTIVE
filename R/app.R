@@ -1389,7 +1389,7 @@ observeEvent(input$example,
                 showModal(modalDialog(
 
                  title = "Example for H3K36 modification prediction",
-                 tags$img(src = "imagepath/schema.jpg", width = "225px"),
+                 tags$img(src = "imagepath/schema.jpg", width = "225px", class="center"),
                  HTML("<br> Additive scoring guidelines: First, a modifiable residue must be present e.g., H3K36. If it is present the modification is given 0.5 points. If an appropriate residue is found in an 'offset' position e.g., H3K37 it is given 0.25 points. If no residue is found the potential for the modification is 0/1, or 0% with a probability prediction of zero. Subsequently, if a specific writer of H3K36me e.g., Set2 is predicted, and a specific eraser e.g., KDM4A is predicted the modification is given an additional 0.25 points for each. Promiscuous enzymes are given 0.125 points. In the case that a residue is found, and both specific writers and erasers are predicted, the result is a score of 1/1 or 100% of criteria being met. This is given a descriptor of a 'best' probability prediction."),
                  easyClose = TRUE,
                  footer = NULL
