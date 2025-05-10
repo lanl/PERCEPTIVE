@@ -1181,13 +1181,13 @@ server <- function(input, output, session){
                   H2bub<-c("Zero (0%)", "No", "No", "No", "Not Measured", "Not Measured", "Not Measured", "Not Measured")
                   if(sum(H2BHHhits, H2BSChits)>0)
                   {
-                    H2bub[1]<-"Good (62.5%)"
+                    H2bub[1]<-"Fair (62.5%)"
                   } else if (sum(H2BHHlefthits, H2BSClefthits)>0)
                   {
-                    H2bub[1]<-"Poor (37.5%)"
+                    H2bub[1]<-"Unlikely (37.5)"
                   }else if (sum(H2BHHrighthits, H2BSCrighthits)>0)
                   {
-                    H2bub[1]<-"Poor (37.5%)"
+                    H2bub[1]<-"Unlikely (37.5)"
                   }
 
                   if(sum(H2BHHhits, H2BSChits)>0)
@@ -1202,16 +1202,16 @@ server <- function(input, output, session){
                   {
                     H2bub[4]<-"Yes"
                   }
-                  if(H2bub[1]!="Good (62.5%)")
+                  if(H2bub[1]!="Fair (62.5%)")
                   {probability[20]<-probability[20]-0.125}
 
                   probablity<-as.vector(probability)
                   probablity[which(probability==0)]<-"Zero (0%)"
                   probablity[which(probability==0.250)]<-"Negligible (25%)"
-                  probablity[which(probability==0.375)]<-"Poor (37.5%)"
-                  probablity[which(probability==0.5)]<-"Fair (50%)"
-                  probablity[which(probability==0.625)]<-"Good (62.5%)"
-                  probablity[which(probability==0.75)]<-"Better (75%)"
+                  probablity[which(probability==0.375)]<-"Unlikely (37.5)"
+                  probablity[which(probability==0.5)]<-"Possible (50%)"
+                  probablity[which(probability==0.625)]<-"Fair (62.5%)"
+                  probablity[which(probability==0.75)]<-"Good (75%)"
                   probablity[which(probability==0.875)]<-"Excellent (87.5%)"
                   probablity[which(probability==1)]<-"Best (100%)"
                   descri[,1]<-probablity
@@ -1233,13 +1233,13 @@ server <- function(input, output, session){
                                                                                        {color <- "#CA300F"
                                                                                        }else if (grepl("Negligible (25%)", value))
                                                                                        {color <- "#F76D4F"
-                                                                                       }else if (grepl("Poor (37.5%)", value))
+                                                                                       }else if (grepl("Unlikely (37.5)", value))
                                                                                        {color <- "#FFAB3F"
-                                                                                       }else if (grepl("Fair (50%)", value))
+                                                                                       }else if (grepl("Possible (50%)", value))
                                                                                        {color <- "#FFc23F"
-                                                                                       }else if (grepl("Good (62.5%)", value))
+                                                                                       }else if (grepl("Fair (62.5%)", value))
                                                                                        {color <- "#BDE74D"
-                                                                                       }else if (grepl("Better (75%)", value))
+                                                                                       }else if (grepl("Good (75%)", value))
                                                                                        {color <- "#81D63D"
                                                                                        }else if (grepl("Excellent (87.5%)", value))
                                                                                        {color <- "#0Fa300"
