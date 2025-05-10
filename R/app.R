@@ -1213,7 +1213,7 @@ server <- function(input, output, session){
                   probablity[which(probability==0.625)]<-"Fair (62.5%)"
                   probablity[which(probability==0.75)]<-"Good (75%)"
                   probablity[which(probability==0.875)]<-"Excellent (87.5%)"
-                  probablity[which(probability==1)]<-"Best (100%)"
+                  probablity[which(probability==1)]<-"Highest (100%)"
                   descri[,1]<-probablity
                   descri<-as.data.frame(descri)
 
@@ -1243,7 +1243,7 @@ server <- function(input, output, session){
                                                                                        {color <- "#81D63D"
                                                                                        }else if (grepl("Excellent (87.5%)", value))
                                                                                        {color <- "#0Fa300"
-                                                                                       }else if (grepl("Best (100%)", value))
+                                                                                       }else if (grepl("Highest (100%)", value))
                                                                                        {color <- "#0c8200"
                                                                                        }else
                                                                                        {color <- "black"}
