@@ -73,7 +73,7 @@ To unzip run the following:
 gzip -d [pathtoyourlicensefile]
 ```
 ## Usage
-As above usage will be broken down by for the two functions PERCEPTIVE and Pipeline. For the time being the Graphical interface must be started from the command-line. A launcher application may become available in the future.
+As above usage will be broken down by for the two functions PERCEPTIVE and Pipeline. For the time being the graphical interface must be started from the command-line. A launcher application may become available in the future.
 
 ### PERCEPTIVE Usage
 To run the PERCEPTIVE Graphical Interface for interpretation and prediction of chromatin modifying enzymes open an R terminal and run the following:
