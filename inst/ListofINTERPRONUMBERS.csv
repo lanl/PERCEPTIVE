@@ -1,6 +1,5 @@
-﻿Accession,Name,Source Database,Type,Integrated Into,Integrated Signatures,GO Terms
+Accession,Name,Source Database,Type,Integrated Into,Integrated Signatures,GO Terms
 IPR000119,Histone-like DNA-binding protein,interpro,family,,"PTHR33175,PF00216,SM00411,PR01727","GO:0003677,GO:0030527"
-IPR000164,Histone H3/CENP-A,interpro,family,,"PTHR45810,PTHR11426,PS00959,PS00322,SM00428,PR00622","GO:0003677,GO:0030527,GO:0000786"
 IPR000164,Histone H3/CENP-A,interpro,family,,"PTHR45810,PTHR11426,PS00959,PS00322,SM00428,PR00622","GO:0003677,GO:0030527,GO:0000786"
 IPR000286,Histone deacetylase family,interpro,family,,PR01270,
 IPR000558,Histone H2B,interpro,family,,"PS00357,PTHR23428,PR00621,SM00427","GO:0003677,GO:0030527,GO:0000786"
@@ -170,11 +169,9 @@ IPR048610,"Cohesin subunit SCC3, C-terminal domain",interpro,domain,,PF21767,GO:
 IPR048669,"Histone-lysine N-methyltransferase SET1, RNA-binding domain",interpro,domain,,PF21569,
 IPR048776,"Histone acetyltransferase type B catalytic subunit, C-terminal",interpro,domain,,PF21183,
 IPR048864,Histone H3 binding protein ORF158L-like,interpro,family,,PF21644,
-IPR048864,Histone H3 binding protein ORF158L-like,interpro,family,,PF21644,
 IPR001025,Bromo adjacent homology (BAH) domain,interpro,domain,,"PS51038,PF01426,SM00439",GO:0003682
 IPR001091,Restriction/modification DNA-methyltransferase,interpro,family,,PR00508,"GO:0003677,GO:0008170,GO:0006306"
 IPR015270,"Protein RDM1, plant",interpro,family,,"PTHR36366,PF09187","GO:0044030,GO:0005634"
-IPR017198,DNA (cytosine-5)-methyltransferase 1-like,interpro,family,,PIRSF037404,"GO:0003886,GO:0090116,GO:0005634"
 IPR017198,DNA (cytosine-5)-methyltransferase 1-like,interpro,family,,PIRSF037404,"GO:0003886,GO:0090116,GO:0005634"
 IPR022702,"DNA (cytosine-5)-methyltransferase 1, replication foci domain",interpro,domain,,PF12047,
 IPR023780,Chromo domain,interpro,domain,,PF00385,
