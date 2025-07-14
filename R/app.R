@@ -403,8 +403,8 @@ server <- function(input, output, session){
                     hh<-hh[,-1]
                     hh<-apply(hh, 1, paste, collapse="")
                     hh<<-cbind(c("Histone: H1.0", "Sequence", "acetylation", "phosphorylation", "methylation", "ubiquitylation", "UniProtID:",
-                                "Histone: H2A.1", "Sequence", "acetylation", "phosphorylation", "methylation", "ubiquitylation", "UniProtID:",
-                                "Histone: H2B.1", "Sequence", "acetylation", "phosphorylation", "methylation", "ubiquitylation", "UniProtID:",
+                                "Histone: H2A-1H", "Sequence", "acetylation", "phosphorylation", "methylation", "ubiquitylation", "UniProtID:",
+                                "Histone: H2B-1H", "Sequence", "acetylation", "phosphorylation", "methylation", "ubiquitylation", "UniProtID:",
                                 "Histone: H3.1", "Sequence", "acetylation", "phosphorylation", "methylation", "ubiquitylation", "UniProtID:",
                                 "Histone: H4", "Sequence", "acetylation", "phosphorylation", "methylation", "ubiquitylation", "UniProtID:"),hh)
 
