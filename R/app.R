@@ -301,11 +301,11 @@ server <- function(input, output, session){
                         x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
                       }
                     H2A<-x
-                    H2A<<-cbind(H1[header,],H2A)
+                    H2A<-cbind(H1[header,],H2A)
                     rm(H1)
                     }else
                     {
-                    H2A<<-matrix("NULL", 1,2)
+                    H2A<-matrix("NULL", 1,2)
                     }
                     H1<-as.data.frame(0)
                     H1<-tryCatch(read.table(paste0(dir(),"/H2B"), header=FALSE), error=function(e) {NULL})
@@ -324,9 +324,9 @@ server <- function(input, output, session){
                         x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
                       }
                     H2B<-x
-                    H2B<<-cbind(H1[header,],H2B)
+                    H2B<-cbind(H1[header,],H2B)
                     rm(H1)
-                    }else{H2B<<-matrix("NULL", 1,2)
+                    }else{H2B<-matrix("NULL", 1,2)
 
                     }
                     H1<-as.data.frame(0)
@@ -346,9 +346,9 @@ server <- function(input, output, session){
                         x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
                       }
                     H3<-x
-                    H3<<-cbind(H1[header,],H3)
+                    H3<-cbind(H1[header,],H3)
                     rm(H1)
-                    }else{H3<<-matrix("NULL", 1,2)
+                    }else{H3<-matrix("NULL", 1,2)
 
                     }
                     H1<-as.data.frame(0)
@@ -368,9 +368,9 @@ server <- function(input, output, session){
                         x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
                       }
                     H4<-x
-                    H4<<-cbind(H1[header,],H4)
+                    H4<-cbind(H1[header,],H4)
                     rm(H1)
-                    }else{H4<<-matrix("NULL", 1,2)
+                    }else{H4<-matrix("NULL", 1,2)
 
                     }
                     H1<-as.data.frame(0)
@@ -391,11 +391,11 @@ server <- function(input, output, session){
                       }
                     H1.0<-x
                     H1.0<-cbind(H1[header,],H1.0)
-                    H1<<-H1.0
+                    H1<-H1.0
                     rm (H1.0)
                     rm(x)
                     }else{
-                      H1<<-matrix("NULL",1,2)
+                      H1<-matrix("NULL",1,2)
 
                     }
 
@@ -407,8 +407,13 @@ server <- function(input, output, session){
                       {
                       H1ordered<-rbind(H1ordered, H1[which(freqH1[p,1]==H1[,2]),])
                       }
-                    }
                     H1<<-H1ordered
+                    rm(H1ordered,freqH1)
+                    }else
+                    {
+                    H1<<-H1
+                    }
+
 
                     freqH2A<-as.data.frame(table(H2A[,2])[order(table(H2A[,2]),decreasing = TRUE)])
                     if(dim(freqH2A)[1]>1)
@@ -418,8 +423,13 @@ server <- function(input, output, session){
                       {
                         H2Aordered<-rbind(H2Aordered, H2A[which(freqH2A[p,1]==H2A[,2]),])
                       }
+                      H2A<<-H2Aordered
+                      rm(H2Aordered,freqH2A)
+                    }else
+                    {
+                      H2A<<-H2A
                     }
-                    H2A<<-H2Aordered
+
 
 
                     freqH2B<-as.data.frame(table(H2B[,2])[order(table(H2B[,2]),decreasing = TRUE)])
@@ -430,8 +440,13 @@ server <- function(input, output, session){
                       {
                         H2Bordered<-rbind(H2Bordered, H2B[which(freqH2B[p,1]==H2B[,2]),])
                       }
+                      H2B<<-H2Bordered
+                      rm(H2Bordered,freqH2B)
+                    }else
+                    {
+                      H2B<<-H2B
                     }
-                    H2B<<-H2Bordered
+
 
 
                     freqH3<-as.data.frame(table(H3[,2])[order(table(H3[,2]),decreasing = TRUE)])
@@ -442,8 +457,13 @@ server <- function(input, output, session){
                       {
                         H3ordered<-rbind(H3ordered, H3[which(freqH3[p,1]==H3[,2]),])
                       }
+                      H3<<-H3ordered
+                      rm(H3ordered,freqH3)
+                    }else
+                    {
+                      H3<<-H3
                     }
-                    H3<<-H3ordered
+
 
 
                     freqH4<-as.data.frame(table(H4[,2])[order(table(H4[,2]),decreasing = TRUE)])
@@ -454,10 +474,15 @@ server <- function(input, output, session){
                       {
                         H4ordered<-rbind(H4ordered, H4[which(freqH4[p,1]==H4[,2]),])
                       }
+                      H4<<-H4ordered
+                      rm(H4ordered,freqH4)
+                    }else
+                    {
+                      H4<<-H4
                     }
-                    H4<<-H4ordered
 
-                    rm (H1ordered,H2Aordered,H2Bordered,H3ordered,H4ordered, freqH1,freqH2A,freqH2B,freqH3,freqH4)
+
+
 
 
                     hh<-read.csv(paste0(dir(),"/humanhistones.csv"))
