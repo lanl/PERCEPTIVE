@@ -288,19 +288,18 @@ server <- function(input, output, session){
                     H1<-tryCatch(read.table(paste0(dir(),"/H2A"), header=FALSE), error=function(e) {NULL})
                     if(is.numeric(dim(H1)))
                     {
-                    header<-which(grepl(">", H1[,1])==TRUE)
-                  if(length(header)>1)
-                  {
-                    x<-rbind(paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
-                    for (t in 2:(length(header)-1))
-                    {
-                      x<-rbind(x,paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
-                    }
-                    x<-rbind(x,paste0(c(H1[(header[length(header)]+1):dim(H1)[1],1]), collapse=""))
-                  }else
-                  {
-                    x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
-                  }
+                      header<-which(grepl(">", H1[,1])==TRUE)
+                      if(length(header)>1)
+                      {
+                        x<-rbind(paste0(c(H1[((header[1]+1):(header[1]+2)),1]), collapse=""))
+                        for (t in 2:(length(header)))
+                        {
+                          x<-rbind(x,paste0(c(H1[((header[t]+1):(header[t]+2)),1]), collapse=""))
+                        }
+                      }else
+                      {
+                        x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
+                      }
                     H2A<-x
                     H2A<<-cbind(H1[header,],H2A)
                     rm(H1)
@@ -312,20 +311,18 @@ server <- function(input, output, session){
                     H1<-tryCatch(read.table(paste0(dir(),"/H2B"), header=FALSE), error=function(e) {NULL})
                     if(is.numeric(dim(H1)))
                     {
-
-                    header<-which(grepl(">", H1[,1])==TRUE)
-                    if(length(header)>1)
-                    {
-                      x<-rbind(paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
-                      for (t in 2:(length(header)-1))
+                      header<-which(grepl(">", H1[,1])==TRUE)
+                      if(length(header)>1)
                       {
-                        x<-rbind(x,paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
+                        x<-rbind(paste0(c(H1[((header[1]+1):(header[1]+2)),1]), collapse=""))
+                        for (t in 2:(length(header)))
+                        {
+                          x<-rbind(x,paste0(c(H1[((header[t]+1):(header[t]+2)),1]), collapse=""))
+                        }
+                      }else
+                      {
+                        x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
                       }
-                      x<-rbind(x,paste0(c(H1[(header[length(header)]+1):dim(H1)[1],1]), collapse=""))
-                    }else
-                    {
-                      x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
-                    }
                     H2B<-x
                     H2B<<-cbind(H1[header,],H2B)
                     rm(H1)
@@ -336,19 +333,18 @@ server <- function(input, output, session){
                     H1<-tryCatch(read.table(paste0(dir(),"/H3"), header=FALSE), error=function(e) {NULL})
                     if(is.numeric(dim(H1)))
                     {
-                    header<-which(grepl(">", H1[,1])==TRUE)
-                    if(length(header)>1)
-                    {
-                      x<-rbind(paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
-                      for (t in 2:(length(header)-1))
+                      header<-which(grepl(">", H1[,1])==TRUE)
+                      if(length(header)>1)
                       {
-                        x<-rbind(x,paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
+                        x<-rbind(paste0(c(H1[((header[1]+1):(header[1]+2)),1]), collapse=""))
+                        for (t in 2:(length(header)))
+                        {
+                          x<-rbind(x,paste0(c(H1[((header[t]+1):(header[t]+2)),1]), collapse=""))
+                        }
+                      }else
+                      {
+                        x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
                       }
-                      x<-rbind(x,paste0(c(H1[(header[length(header)]+1):dim(H1)[1],1]), collapse=""))
-                    }else
-                    {
-                      x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
-                    }
                     H3<-x
                     H3<<-cbind(H1[header,],H3)
                     rm(H1)
@@ -359,19 +355,18 @@ server <- function(input, output, session){
                     H1<-tryCatch(read.table(paste0(dir(),"/H4"), header=FALSE), error=function(e) {NULL})
                     if(is.numeric(dim(H1)))
                     {
-                    header<-which(grepl(">", H1[,1])==TRUE)
-                    if(length(header)>1)
-                    {
-                      x<-rbind(paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
-                      for (t in 2:(length(header)-1))
+                      header<-which(grepl(">", H1[,1])==TRUE)
+                      if(length(header)>1)
                       {
-                        x<-rbind(x,paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
+                        x<-rbind(paste0(c(H1[((header[1]+1):(header[1]+2)),1]), collapse=""))
+                        for (t in 2:(length(header)))
+                        {
+                          x<-rbind(x,paste0(c(H1[((header[t]+1):(header[t]+2)),1]), collapse=""))
+                        }
+                      }else
+                      {
+                        x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
                       }
-                      x<-rbind(x,paste0(c(H1[(header[length(header)]+1):dim(H1)[1],1]), collapse=""))
-                    }else
-                    {
-                      x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
-                    }
                     H4<-x
                     H4<<-cbind(H1[header,],H4)
                     rm(H1)
@@ -382,20 +377,18 @@ server <- function(input, output, session){
                     H1<-tryCatch(read.table(paste0(dir(),"/H1"), header=FALSE), error=function(e) {NULL})
                     if(is.numeric(dim(H1)))
                     {
-
-                    header<-which(grepl(">", H1[,1])==TRUE)
-                        if(length(header)>1)
+                      header<-which(grepl(">", H1[,1])==TRUE)
+                      if(length(header)>1)
+                      {
+                        x<-rbind(paste0(c(H1[((header[1]+1):(header[1]+2)),1]), collapse=""))
+                        for (t in 2:(length(header)))
                         {
-                          x<-rbind(paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
-                          for (t in 2:(length(header)-1))
-                          {
-                            x<-rbind(x,paste0(c(H1[((header[1]+1):(header[1+1]+-1)),1]), collapse=""))
-                          }
-                          x<-rbind(x,paste0(c(H1[(header[length(header)]+1):dim(H1)[1],1]), collapse=""))
-                        }else
-                        {
-                          x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
+                          x<-rbind(x,paste0(c(H1[((header[t]+1):(header[t]+2)),1]), collapse=""))
                         }
+                      }else
+                      {
+                        x<-rbind(paste0(c(H1[((header[1]+1):dim(H1[1])[1]),1]), collapse=""))
+                      }
                     H1.0<-x
                     H1.0<-cbind(H1[header,],H1.0)
                     H1<<-H1.0
