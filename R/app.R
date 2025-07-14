@@ -399,6 +399,67 @@ server <- function(input, output, session){
 
                     }
 
+                    freqH1<-as.data.frame(table(H1[,2])[order(table(H1[,2]),decreasing = TRUE)])
+                    if(dim(freqH1)[1]>1)
+                    {
+                    H1ordered<-H1[which(freqH1[1,1]==H1[,2]),]
+                    for(p in 2:dim(freqH1)[1])
+                      {
+                      H1ordered<-rbind(H1ordered, H1[which(freqH1[p,1]==H1[,2]),])
+                      }
+                    }
+                    H1<<-H1ordered
+
+                    freqH2A<-as.data.frame(table(H2A[,2])[order(table(H2A[,2]),decreasing = TRUE)])
+                    if(dim(freqH2A)[1]>1)
+                    {
+                      H2Aordered<-H2A[which(freqH2A[1,1]==H2A[,2]),]
+                      for(p in 2:dim(freqH2A)[1])
+                      {
+                        H2Aordered<-rbind(H2Aordered, H2A[which(freqH2A[p,1]==H2A[,2]),])
+                      }
+                    }
+                    H2A<<-H2Aordered
+
+
+                    freqH2B<-as.data.frame(table(H2B[,2])[order(table(H2B[,2]),decreasing = TRUE)])
+                    if(dim(freqH2B)[1]>1)
+                    {
+                      H2Bordered<-H2B[which(freqH2B[1,1]==H2B[,2]),]
+                      for(p in 2:dim(freqH2B)[1])
+                      {
+                        H2Bordered<-rbind(H2Bordered, H2B[which(freqH2B[p,1]==H2B[,2]),])
+                      }
+                    }
+                    H2B<<-H2Bordered
+
+
+                    freqH3<-as.data.frame(table(H3[,2])[order(table(H3[,2]),decreasing = TRUE)])
+                    if(dim(freqH3)[1]>1)
+                    {
+                      H3ordered<-H3[which(freqH3[1,1]==H3[,2]),]
+                      for(p in 2:dim(freqH3)[1])
+                      {
+                        H3ordered<-rbind(H3ordered, H3[which(freqH3[p,1]==H3[,2]),])
+                      }
+                    }
+                    H3<<-H3ordered
+
+
+                    freqH4<-as.data.frame(table(H4[,2])[order(table(H4[,2]),decreasing = TRUE)])
+                    if(dim(freqH4)[1]>1)
+                    {
+                      H4ordered<-H4[which(freqH4[1,1]==H4[,2]),]
+                      for(p in 2:dim(freqH4)[1])
+                      {
+                        H4ordered<-rbind(H4ordered, H4[which(freqH4[p,1]==H4[,2]),])
+                      }
+                    }
+                    H4<<-H4ordered
+
+                    rm (H1ordered,H2Aordered,H2Bordered,H3ordered,H4ordered, freqH1,freqH2A,freqH2B,freqH3,freqH4)
+
+
                     hh<-read.csv(paste0(dir(),"/humanhistones.csv"))
                     hh<-hh[,-1]
                     hh<-apply(hh, 1, paste, collapse="")
