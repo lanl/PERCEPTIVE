@@ -258,7 +258,7 @@ if(is.na(defaults[1,1]))
               writeLines(
 
                 c("cd tempforpipeline/",
-                  paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
+                  paste("singularity exec -B ~/ ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
                 , fileConn)
               close(fileConn)
 
@@ -440,7 +440,7 @@ if(is.na(defaults[1,1]))
           writeLines(
 
             c("cd tempforpipeline/",
-              paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
+              paste("singularity exec -B ~/ ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
             , fileConn)
           close(fileConn)
 
@@ -627,7 +627,7 @@ if(is.na(defaults[1,1]))
               writeLines(
 
                 c("cd tempforpipeline/",
-                  paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
+                  paste("singularity exec -B ~/ ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
                 , fileConn)
               close(fileConn)
 
@@ -817,7 +817,7 @@ if(is.na(defaults[1,1]))
             writeLines(
 
               c("cd tempforpipeline/",
-                paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
+                paste("singularity exec -B ~/ ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
               , fileConn)
             close(fileConn)
 
@@ -978,7 +978,7 @@ if(is.na(defaults[1,1]))
           writeLines(
 
             c("cd tempforpipeline/",
-              paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
+              paste("singularity exec -B ~/ ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--rnaseq_sets_ids=ID1 --rnaseq_sets_dirs=../"))
             , fileConn)
           close(fileConn)
 
@@ -1132,7 +1132,7 @@ if(is.na(defaults[1,1]))
           writeLines(
 
             c("cd tempforpipeline/",
-              paste("singularity exec ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
+              paste("singularity exec -B ~/ ../braker3.sif braker.pl --genome=input.fasta.masked --threads", nprocout, "--prot_seq=../Eukaryota.fa"))
             , fileConn)
           close(fileConn)
 
