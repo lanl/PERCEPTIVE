@@ -13,7 +13,6 @@ Pipeline<-function()
   library(shinydashboard)
   library(shinydashboardPlus)
   library(parallel)
-  library(shinyscreenshot)
 
 
 
