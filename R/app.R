@@ -2062,7 +2062,7 @@ ui <- dashboardPage(scrollToTop = TRUE, skin="green",
               reactableOutput("outtable"),
               div(
                 div(actionButton("csvbutton", label = "Download current selection as CSV", icon("download"), style= "color: #fff; background-color: #337ab7; border-color: #2e6da4",
-                                 onclick = sprintf("Reactable.downloadDataCSV('%s', '%s')", "IPhits", filename = "data.csv"))), style="text-align: right"),
+                                 onclick = sprintf("Reactable.downloadDataCSV('%s', '%s')", "outtable", filename = "data.csv"))), style="text-align: right"),
               h6(HTML("<b>User Note: Most histone and histone PTM antibodies are peptide antibodies mounted against the N-terminal and C-terminal tails of human or budding yeast histones. If sequence homology is low, the sequence of the peptide antigen should be determined and confirmed in the novel organism protein sequence before purchasing/utilizing any commercial antibodies. The homology predicted above reflects the minimum Levenshtein edit distance for a novel organism peptide sequence. This may not predict PTM potential and adjacent modifiable residues could be modified (e.g., A novel organism has H3K35, while the canonical human/budding yeast residue is H3K36 and is me1/2/3 modified).</b> "))
 
     ),
@@ -2073,6 +2073,8 @@ ui <- dashboardPage(scrollToTop = TRUE, skin="green",
             div(h5(HTML("<b>Probability associated with modification is represented on a scale from Zero to Excellent, with corresponding percentages of criterion met as outlined here in this example for H3K4me3: </b>"))),
             div(style = "display:inline-block; float:right",  actionButton('example', 'Example', icon("lightbulb"),
                                                                            style="color: #fff; background-color: #28A745; border-color: #2e6da4")),
+            div(actionButton("csvbutton", label = "Download current selection as CSV", icon("download"), style= "color: #fff; background-color: #337ab7; border-color: #2e6da4",
+                  onclick = sprintf("Reactable.downloadDataCSV('%s', '%s')", "Predictions", filename = "data.csv"))),
             reactableOutput("Predictions"),
     )
   )
